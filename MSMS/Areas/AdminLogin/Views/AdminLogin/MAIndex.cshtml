@@ -1,0 +1,49 @@
+﻿@{
+    ViewBag.Title = "MAIndex";
+    Layout = "~/Areas/AdminLogin/Views/Shared/_Layout.cshtml";
+}
+
+<h2>MAIndex</h2>
+
+<script src="~/Scripts/jquery-1.12.4.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        if (window.sessionStorage.getItem("AdminID") == null) {
+            window.location = "Login";
+        } else {
+            var AdmTable = $("#Admtable");
+            $.ajax({
+                type: "Get",
+                url: "https://localhost:44339/api/AdminLogin/WebApiMADDashBoard/GetAdminsList",
+                dataType: "json",
+                success: function (data) {
+                    AdmTable.empty();
+                    AdmTable.append("<tr><th>AdminType</th><th>AdminID</th><th>Name</th><th>Age</th><th>Gender</th><th>Password</th><th>Phone</th><th>PAN</th><th>Adhar</th><th>PermanentAddress</th><th>CurrentAddress</th><th>Photo</th><th>Status</th><th>Reference</th><th>Operations</th></tr>");
+                    $.each(data, function (index, item) {
+                        AdmTable.append("<tr><td>" + item.Admin_Type + "</td><td>" + item.Admin_ID + "</td><td>" + item.Name + "</td><td>" + item.Age + "</td><td>" + item.Gender + "</td><td>" + item.Password + "</td><td>" + item.Phone + "</td><td>" + item.Pan_Number + "</td><td>" + item.Aadhar_Number + "</td><td>" + item.Permanent_Address + "</td><td>" + item.Current_Address + "</td><td>" + item.Photo + "</td><td>" + item.Status + "</td><td>" + item.Reference + "</td><td><a class='getid' href=@Url.Action("MAEdit","AdminLogin")>Edit</a></td><td><a class='getid' href=@Url.Action("MADelete","AdminLogin")>Delete</a></td></tr>");
+                    });
+                    $('.getid').click(function () {
+                        var AdmId = $(this).closest("tr").find("td:nth-child(2)").text();
+                        window.sessionStorage.setItem("AdmID", AdmId);
+                    });
+                },
+                error: function (XHR) {
+                    var responseData = JSON.parse(XHR.responseText);
+                    alert(XHR.status + " : " + responseData.Message);
+                }
+            });
+        }
+    });
+</script>
+
+<h2>ManageAdmin</h2>
+
+<div class="table-responsive">
+    <table id="Admtable" class="table" style="text-align:center">
+    </table>
+</div>
+
+
+
+
+

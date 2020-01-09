@@ -1,0 +1,149 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/MADashboard.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.12.4.js"></script>
+    <script src="~/Scripts/modernizr-2.8.3.js"></script>
+    @*<script src="~/Scripts/MyScript.js"></script>*@
+</head>
+
+
+<body>
+    <script src="~/Scripts/jquery-1.12.4.js"></script>
+    <script>
+        $(document).ready(function () {
+            debugger;
+           // var abc = $("#RedirectTo").val();
+            if (window.sessionStorage.getItem("AdminID") == null) {
+                window.location.href = "/adminlogin/adminlogin/login";
+            }
+            else {
+                var Logout = $("#btnLogout");
+                Logout.click(function () {
+                    debugger;
+                    //window.sessionStorage.removeItem("AdminID");
+                    window.sessionStorage.clear();
+                    window.location.href = "/adminlogin/adminlogin/login";
+                });
+                var Name = $("#lblName");
+                Name.append(window.sessionStorage.getItem("AdminID"));
+            }
+
+        });
+    </script>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <h1>
+                    @Html.ActionLink("#", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                </h1>
+            </div>
+          
+            <div id="navbar" class="collapse navbar-collapse">
+                <h4 style="padding-top:10px;">
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li> <a><label id="lblName"></label></a></li>
+                        <li><a href="#"><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a></li>
+                        <li><a href="#about"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a></li>
+                        <li><a href="#contact"><span class="glyphicon glyphicon-globe" aria-hidden="true"></span></a></li>
+                        <li>@*<a><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a>*@<input type="submit" class="btn btn-danger" id="btnLogout" value="Logout" /></li>
+                        @Html.Hidden("RedirectTo", Url.Action("Login", "AdminLogin"))
+                    </ul>
+                </h4>
+            </div><!--/.nav-collapse -->
+        </div>
+    </nav>
+
+
+    <div class="side-nav">
+        <nav>
+            <ul>
+                <li>
+                    <a href="OADashboard">
+                        <span><i class="fa fa-tachometer"></i></span>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="OAProfile">
+                        <span><i class="fa fa-user"></i></span>
+                        <span>Profile</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="OAChangePassword">
+                        <span><i class="fa fa-lock"></i></span>&nbsp;&nbsp;&nbsp;
+                        <span>Change Password</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="AddOwner">
+                        <span><i class="fa fa-user-plus"></i></span>&nbsp;
+                        <span>Add Owner</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="ManageOwner">
+                        <span><i class="fa fa-bar-chart"></i></span>&nbsp;
+                        <span>Manage Owner</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="container-fluid body-content">
+
+        <div class="main" style="margin-left:300px;">
+            @*<header id="header">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-10">
+                                <h2><span class="glyphicon glyphicon-link" aria-hidden="true"></span> Dashboard Profile <small>Managerial Admin</small></h2>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="dropdown create">
+                                    <button class="btn btn-default dropdown-toggle" style="width:150px;" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        Select Branch
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                        <li><a href="#">Action</a></li>
+                                        <li><a href="#">Another action</a></li>
+                                        <li><a href="#">Something else here</a></li>
+                                        <li role="separator" class="divider"></li>
+                                        <li><a href="#">Separated link</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </header>*@
+            @RenderBody()
+            <hr />
+        </div>
+    </div>
+    <footer id="footer" style="background-color:#000;height:100px;">
+        <div class="container-fluid">
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </div>
+    </footer>
+    <script src="~/Scripts/jquery-1.12.4.js"></script>
+    <script src="~/Scripts/jquery.min.js"></script>
+    @*<script src="~/Scripts/MyScript.js"></script>*@
+    <script src="~/Scripts/bootstrap.min.js"></script>
+</body>
+</html>

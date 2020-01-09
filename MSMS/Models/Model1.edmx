@@ -1,0 +1,238 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="MSMSDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Admin">
+          <Key>
+            <PropertyRef Name="Admin_ID" />
+          </Key>
+          <Property Name="Admin_Type" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Admin_ID" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Age" Type="int" Nullable="false" />
+          <Property Name="Gender" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="Pan_Number" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Aadhar_Number" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Permanent_Address" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="Current_Address" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="Photo" Type="image" />
+          <Property Name="Status" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Reference" Type="nvarchar" MaxLength="8" />
+        </EntityType>
+        <EntityType Name="Owner_Registration">
+          <Key>
+            <PropertyRef Name="Owner_Email" />
+          </Key>
+          <Property Name="Owner_Email" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Age" Type="int" Nullable="false" />
+          <Property Name="Gender" Type="nvarchar" MaxLength="6" Nullable="false" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="Pan_Number" Type="image" />
+          <Property Name="Aadhar_Number" Type="image" />
+          <Property Name="Permanent_Address" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="Current_Address" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="Status" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Store_Registration">
+          <Key>
+            <PropertyRef Name="StoreEmail" />
+          </Key>
+          <Property Name="StoreEmail" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Store_Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="License_Number" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="License_Image_Copy" Type="image" />
+          <Property Name="Address" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="Pan_Number" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="Percentage" Type="int" Nullable="false" />
+          <Property Name="Status" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Owner_Email" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <Association Name="fk_Store">
+          <End Role="Owner_Registration" Type="Self.Owner_Registration" Multiplicity="0..1" />
+          <End Role="Store_Registration" Type="Self.Store_Registration" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Owner_Registration">
+              <PropertyRef Name="Owner_Email" />
+            </Principal>
+            <Dependent Role="Store_Registration">
+              <PropertyRef Name="Owner_Email" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MSMSDBModelStoreContainer">
+          <EntitySet Name="Admin" EntityType="Self.Admin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Owner_Registration" EntityType="Self.Owner_Registration" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Store_Registration" EntityType="Self.Store_Registration" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="fk_Store" Association="Self.fk_Store">
+            <End Role="Owner_Registration" EntitySet="Owner_Registration" />
+            <End Role="Store_Registration" EntitySet="Store_Registration" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MSMSDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Admin">
+          <Key>
+            <PropertyRef Name="Admin_ID" />
+          </Key>
+          <Property Name="Admin_Type" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Admin_ID" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Age" Type="Int32" Nullable="false" />
+          <Property Name="Gender" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Phone" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Pan_Number" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Aadhar_Number" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Permanent_Address" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Current_Address" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Status" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Reference" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityContainer Name="MSMSDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Admins" EntityType="Self.Admin" />
+          <EntitySet Name="Owner_Registration" EntityType="MSMSDBModel.Owner_Registration" />
+          <EntitySet Name="Store_Registration" EntityType="MSMSDBModel.Store_Registration" />
+          <AssociationSet Name="fk_Store" Association="MSMSDBModel.fk_Store">
+            <End Role="Owner_Registration" EntitySet="Owner_Registration" />
+            <End Role="Store_Registration" EntitySet="Store_Registration" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Owner_Registration">
+          <Key>
+            <PropertyRef Name="Owner_Email" />
+          </Key>
+          <Property Name="Owner_Email" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Age" Type="Int32" Nullable="false" />
+          <Property Name="Gender" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="Pan_Number" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Aadhar_Number" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Permanent_Address" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Current_Address" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Store_Registration" Relationship="MSMSDBModel.fk_Store" FromRole="Owner_Registration" ToRole="Store_Registration" />
+        </EntityType>
+        <EntityType Name="Store_Registration">
+          <Key>
+            <PropertyRef Name="StoreEmail" />
+          </Key>
+          <Property Name="StoreEmail" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Store_Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="License_Number" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="License_Image_Copy" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Address" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Pan_Number" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="Percentage" Type="Int32" Nullable="false" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Owner_Email" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Owner_Registration" Relationship="MSMSDBModel.fk_Store" FromRole="Store_Registration" ToRole="Owner_Registration" />
+        </EntityType>
+        <Association Name="fk_Store">
+          <End Type="MSMSDBModel.Owner_Registration" Role="Owner_Registration" Multiplicity="0..1" />
+          <End Type="MSMSDBModel.Store_Registration" Role="Store_Registration" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Owner_Registration">
+              <PropertyRef Name="Owner_Email" />
+            </Principal>
+            <Dependent Role="Store_Registration">
+              <PropertyRef Name="Owner_Email" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MSMSDBModelStoreContainer" CdmEntityContainer="MSMSDBEntities">
+          <EntitySetMapping Name="Admins">
+            <EntityTypeMapping TypeName="MSMSDBModel.Admin">
+              <MappingFragment StoreEntitySet="Admin">
+                <ScalarProperty Name="Admin_Type" ColumnName="Admin_Type" />
+                <ScalarProperty Name="Admin_ID" ColumnName="Admin_ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Pan_Number" ColumnName="Pan_Number" />
+                <ScalarProperty Name="Aadhar_Number" ColumnName="Aadhar_Number" />
+                <ScalarProperty Name="Permanent_Address" ColumnName="Permanent_Address" />
+                <ScalarProperty Name="Current_Address" ColumnName="Current_Address" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Owner_Registration">
+            <EntityTypeMapping TypeName="MSMSDBModel.Owner_Registration">
+              <MappingFragment StoreEntitySet="Owner_Registration">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Current_Address" ColumnName="Current_Address" />
+                <ScalarProperty Name="Permanent_Address" ColumnName="Permanent_Address" />
+                <ScalarProperty Name="Aadhar_Number" ColumnName="Aadhar_Number" />
+                <ScalarProperty Name="Pan_Number" ColumnName="Pan_Number" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Owner_Email" ColumnName="Owner_Email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Store_Registration">
+            <EntityTypeMapping TypeName="MSMSDBModel.Store_Registration">
+              <MappingFragment StoreEntitySet="Store_Registration">
+                <ScalarProperty Name="Owner_Email" ColumnName="Owner_Email" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Percentage" ColumnName="Percentage" />
+                <ScalarProperty Name="Pan_Number" ColumnName="Pan_Number" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="License_Image_Copy" ColumnName="License_Image_Copy" />
+                <ScalarProperty Name="License_Number" ColumnName="License_Number" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Store_Name" ColumnName="Store_Name" />
+                <ScalarProperty Name="StoreEmail" ColumnName="StoreEmail" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

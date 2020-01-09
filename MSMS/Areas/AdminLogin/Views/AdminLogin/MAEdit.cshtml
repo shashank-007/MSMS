@@ -1,0 +1,270 @@
+﻿
+@{
+    ViewBag.Title = "MAEdit";
+    Layout = "~/Areas/AdminLogin/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/jquery-1.12.4.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        if (window.sessionStorage.getItem("AdminID" == null)) {
+            window.location = "Login";
+        }
+        else {
+            var AdminType = $("#txtAdmType");
+            var ddlAdmId = $("#ddlAdmId");
+            var Name = $("#txtName");
+            var Age = $("#txtAge");
+            var Password = $("#txtPwd");
+            var Gender =  $("input[name='Gender']");
+            var Phone = $("#txtPhone");
+            var PanNum = $("#txtPan");
+            var Aadharno = $("#txtAadhar");
+            var PAddress = $("#txtPAddress");
+            var CAddress = $("#txtCAddress");
+            var Photo = $("#txtPhoto");
+            var Status =  $("input[name='Status']");
+            var Ref = $("#txtRef");
+
+
+            //var pageURL = $(location).attr("href");
+            //var len = pageURL.length;
+            //var slen = pageURL.slice(len - 7, len);
+            //alert(slen);
+
+            //if (window.sessionStorage.getItem("slen") == null) {
+            //    window.sessionStorage.setItem("slen", slen);
+            //} else {
+            //    window.sessionStorage.getItem("slen")
+            //}
+
+          
+            $.ajax({
+                type: "get",
+                url: "https://localhost:44339/api/AdminLogin/WebApiMADDashBoard/GetAdminByID/" + window.sessionStorage.getItem("AdmID"),
+                dataType: "json",
+                success: function (data) {
+                    alert("ID success..");
+                    AdminType.text(data.Admin_Type);
+                    ddlAdmId.text(data.Admin_ID);
+                    Name.val(data.Name);
+                    Age.val(data.Age);
+                     if (data.Gender == "Male") {
+                        Gender[0].checked = true;
+                    } else {
+                        Gender[1].checked = true;
+                    }
+                    Password.val(data.Password);
+                    Phone.val(data.Phone);
+                    PanNum.val(data.Pan_Number);
+                    Aadharno.val(data.Aadhar_Number);
+                    PAddress.text(data.Permanent_Address);
+                    CAddress.text(data.Current_Address);
+                    Photo.text(data.Photo);
+                     if (data.Status == "Active") {
+                        Status[0].checked = true;
+                    } else {
+                        Status[1].checked = true;
+                    }
+                    Ref.val(data.Reference);
+                },
+                error: function (XHR) {
+                    var responseData = JSON.parse(XHR.responseText);
+                    alert(XHR.status + ":" + responseData.Message);
+                }
+            });
+
+            $("#btnUpdate").click(function () {
+                
+                var Obj = {
+                    "Admin_Type": AdminType.text(),
+                    "Admin_ID": ddlAdmId.text(),
+                    "Name": Name.val(),
+                    "Age": Age.val(),
+                    "Password": Password.val(),
+                    "Gender": $("input[name='Gender']:checked").val(),
+                    "Phone": Phone.val(),
+                    "Pan_Number": PanNum.val(),
+                    "Aadhar_Number": Aadharno.val(),
+                    "Permanent_Address": PAddress.val(),
+                    "Current_Address": CAddress.val(),
+                    "Photo": Photo.val(),
+                    "Status": $("input[name='Status']:checked").val(),
+                    "Reference": Ref.val()
+                }
+
+                alert("button");
+            $.ajax({
+                type: "post",
+                url: "https://localhost:44339/api/AdminLogin/WebApiMADDashBoard/EditAdmin",
+                dataType: "json",
+                data: JSON.stringify(Obj),
+                contentType: "application/json",
+                success: function (data) {
+                    alert("Post");
+                    alert("Record Was Updated Successfully...!");
+                  
+                },
+                error: function (XHR) {
+                    var responseData = JSON.parse(XHR.responseText);
+                    alert(XHR.status + " : " + responseData.Message);
+                }
+            });
+
+            return true;
+
+        });
+
+        }
+    });
+</script>
+
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="row" style="text-align:center;color:red;margin-bottom:20px;">
+            <div class="col-sm-12">
+                <h2>MAEdit</h2>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom:10px;">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-4" style="font-weight:bold"><h4>Admin Type</h4></div>
+            <div class="col-sm-4">
+                @*<input type="text" id="ddlAdmId" name="ddlAdmId" class="form-control"/>*@
+                <h4><span id="txtAdmType"></span></h4>
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+        <div class="row" style="margin-bottom:10px;">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-4" style="font-weight:bold"><h4>Admin ID</h4></div>
+            <div class="col-sm-4">
+                @*<input type="text" id="ddlAdmId" name="ddlAdmId" class="form-control"/>*@
+                <h4><span id="ddlAdmId"></span></h4>
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-4"><h4 style="">Name</h4></div>
+            <div class="col-md-4">
+                @*<h4><span id="txtName"></span></h4>*@
+                <h4><input type="text" id="txtName" name="txtName" class="form-control" /></h4>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-4"><h4 style="">Age </h4></div>
+            <div class="col-md-4">
+                @*<h4><span id="txtAge"></span></h4>*@
+                <input type="text" id="txtAge" name="txtAge" class="form-control" />
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-4"><h4 style="">Password </h4></div>
+            <div class="col-md-4">
+                @*<h4><span id="txtAge"></span></h4>*@
+                <input type="password" id="txtPwd" name="txtPwd" class="form-control" />
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-4"><h4 style="">Gender</h4></div>
+            <div class="col-md-4">
+                <input type="radio" id="rbtnMale" name="Gender" value="Male" />Male
+                <input type="radio" id="rbtnFemale" name="Gender" value="Female" />Female
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-4"><h4 style="">Phone</h4></div>
+            <div class="col-md-4">
+                @*<h4><span id="txtPhone"></span></h4>*@
+                <input type="text" id="txtPhone" name="txtPhone" class="form-control" />
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-4"><h4 style="">Pan Number</h4></div>
+            <div class="col-md-4">
+                @*<h4><span id="txtPan"></span></h4>*@
+                <input type="text" id="txtPan" name="txtPan" class="form-control" />
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-4"><h4 style="">Aadhar Number</h4></div>
+            <div class="col-md-4">
+                @*<h4><span id="txtAadhar"></span></h4>*@
+                <input type="text" id="txtAadhar" name="txtAadhar" class="form-control" />
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-4"><h4 style="">Permanent Address</h4></div>
+            <div class="col-md-4">
+                @*<h4><span id="txtPAddress"></span></h4>*@
+                <textarea id="txtPAddress" name="txtPAddress" class="form-control" placeholder="Enter Permanent Address" rows="5"></textarea>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-4"><h4 style="">Current Address</h4></div>
+            <div class="col-md-4">
+                @*<h4><span id="txtCAddress"></span></h4>*@
+                <textarea id="txtCAddress" name="txtCAddress" class="form-control" placeholder="Enter Permanent Address" rows="5"></textarea>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-4"><h4 style="">Photo</h4></div>
+            <div class="col-md-4"><h4><span id="txtPhoto"></span></h4></div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-4"><h4 style="">Status</h4></div>
+            <div class="col-md-4">
+                <input type="radio" id="rbtnActive" name="Status" value="Active" />Active
+                <input type="radio" id="rbtnInActive" name="Status" value="InActive" />InActive
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-4"><h4 style="">Reference</h4></div>
+            <div class="col-md-4">
+                @*<h4><span id="txtRef"></span></h4>*@
+                <input type="text" id="txtRef" name="txtRef" class="form-control" />
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+    </div>
+    <div class="row" style="margin-bottom:10px;text-align:center;">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-2">
+            <input type="submit" id="btnUpdate" name="Update" value="Update" class="btn btn-primary" />
+        </div>
+        <div class="col-sm-2">
+            <input type="submit" id="btnCancel" name="Delete" value="Cancel" class="btn btn-danger" />
+        </div>
+        <div class="col-sm-4"></div>
+    </div>
+    <div class="row" style="margin-bottom:10px;">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-3" style="font-weight:bold"></div>
+        <div class="col-sm-3"></div>
+        <div class="col-sm-3"></div>
+    </div>
+</div>
