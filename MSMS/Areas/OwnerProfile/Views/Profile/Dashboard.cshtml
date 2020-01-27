@@ -1,0 +1,257 @@
+﻿
+@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Areas/OwnerProfile/Views/Shared/_LayoutPage1.cshtml";
+}
+
+<script src="~/Scripts/jquery-1.12.4.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        if (window.sessionStorage.getItem("OwnerID") == null) {
+            window.location.href = "/Login/Index";
+        }
+        else {
+            var Email = $("#txtEmail");
+            var Name = $("#txtName");
+            var Age = $("#txtAge");
+            var Gender = $("#txtGender");
+            var Phone = $("#txtPhone");
+            var PanNum = $("#txtPan");
+            var Aadharno = $("#txtAadhar");
+            var PAddress = $("#txtPAddress");
+            var CAddress = $("#txtCAddress");
+            var Photo = $("#txtPhoto");
+            var Status = $("#txtStatus");
+            var CDetails = $("#txtCDetails");
+            var Send = $("#btnSend");
+            CDetails.hide();
+            Send.hide();
+
+            $.ajax({
+                type: "get",
+                url: "https://localhost:44339/api/AdminLogin/WebApiOA/GetOwnerByID/" + window.sessionStorage.getItem("OwnerID"),
+                dataType: "json",
+                success: function (data) {
+                    alert(data.Permanent_Address);
+                    Email.text(data.Owner_Email);
+                    Name.text(data.Name);
+                    Age.text(data.Age);
+                    Gender.text(data.Gender);
+                    Phone.text(data.Phone);
+                    //PanNum.text(data.Pan_Number);
+                    PanNum.attr("src", "data:image/jpg;base64," + data.Pan_Number);
+                    //Aadharno.text(data.Aadhar_Number);
+                    Aadharno.attr("src", "data:image/jpg;base64," + data.Aadhar_Number);
+                    PAddress.text(data.Permanent_Address);
+                    CAddress.text(data.Current_Address);
+                    Photo.attr("src", "data:image/jpg;base64," + data.Photo);
+                    Status.text(data.Status);
+                },
+                error: function (XHR) {
+                    alert('error');
+                }
+            });
+
+            $("#btnhelp").click(function () {
+                CDetails.show();
+                Send.show();
+                //$.ajax({
+                //    type: "get",
+                //    url: "https://localhost:44339/api/OwnerProfile/WebApiStore/Dashboard?txtEmail=" + window.sessionStorage.getItem("OwnerID"),
+                //    dataType: "json",
+                //    success: function (data) {
+                //        debugger;
+                //        alert(data);
+                //    },
+                //    error: function (XHR) {
+                //        alert("Error");
+                //    }
+                //});
+            });
+
+            Send.click(function () {
+                if (CDetails.val() == "") {
+                    alert("Please Enter Changes...!");
+                }
+                else {
+                    $.ajax({
+                        type: "get",
+                        url: "https://localhost:44339/api/OwnerProfile/WebApiStore/Dashboard?txtEmail=" +CDetails.val()+" "+"From"+" "+ window.sessionStorage.getItem("OwnerID"),
+                        dataType: "json",
+                        success: function (data) {
+           
+                        },
+                        error: function (XHR) {
+                           
+                        }
+                    });
+                    $("h5").toggle(1000, function () {
+                        alert("Request was send..!");
+                    });
+                }
+            });
+
+            $("#btnPwd").click(function () {
+                window.location = "ChangePassword";
+            });
+        }
+    });
+</script>
+
+
+<div class="row" style="margin-top:20px;">
+    <div class="col-sm-12">
+        <div class="row" style="text-align:center;color:red;margin-bottom:20px;">
+            <div class="col-sm-12">
+                <h2 style="text-align:left">Owner Details</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-4"><h4 style="">Owner Email</h4></div>
+            <div class="col-md-4"><h4><span id="txtEmail"></span></h4></div>
+            <div class="col-md-2"></div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-4"><h4 style="">Name</h4></div>
+            <div class="col-md-4"><h4><span id="txtName"></span></h4></div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-4"><h4 style="">Age </h4></div>
+            <div class="col-md-4"><h4><span id="txtAge"></span></h4></div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-4"><h4 style="">Gender</h4></div>
+            <div class="col-md-4"><h4><span id="txtGender"></span></h4></div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-4"><h4 style="">Phone</h4></div>
+            <div class="col-md-4"><h4><span id="txtPhone"></span></h4></div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-4"><h4 style="">Pan Number</h4></div>
+            <div class="col-md-4"><h4><img src="#" id="txtPan" /></h4></div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-4"><h4 style="">Aadhar Number</h4></div>
+            <div class="col-md-4"><h4><img src="#" id="txtAadhar" /></h4></div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-4"><h4 style="">Permanent Address</h4></div>
+            <div class="col-md-4"><h4><span id="txtPAddress"></span></h4></div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-4"><h4 style="">Current Address</h4></div>
+            <div class="col-md-4"><h4><span id="txtCAddress"></span></h4></div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-4"><h4 style="">Photo</h4></div>
+            <div class="col-md-4"><h4><img src="#" id="txtPhoto" /></h4></div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-4"><h4 style="">Status</h4></div>
+            <div class="col-md-4"><h4><span id="txtStatus"></span></h4></div>
+            <div class="col-md-2"></div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-4"><h4><input type="submit" class="btn btn-success" id="btnPwd" value="Change Password"></h4></div>
+            <div class="col-md-4"><h4><input type="submit" class="btn btn-danger" id="btnhelp" value="Change Details"></h4></div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-4"></div>
+            <div class="col-md-4"><h5><textarea id="txtCDetails" name="txtCDetails" class="form-control" placeholder="Enter Changes" rows="5"></textarea><br><input type="submit" class="btn btn-info" id="btnSend" value="Send"></h5></div>
+            <div class="col-md-2"></div>
+        </div>
+
+    </div>
+</div>
+
+<hr style="width:20px" />
+
+@*<div class="row" style="margin-top:20px;">
+        <div class="col-sm-12">
+            <div class="row" style="text-align:center;color:red;margin-bottom:20px;">
+                <div class="col-sm-12">
+                    <h2 style="text-align:left">Store Details</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-4"><h4 style="">Store Email</h4></div>
+                <div class="col-md-4"><h4><span id="txtSEmail"></span></h4></div>
+                <div class="col-md-2"></div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-4"><h4 style="">Store Name</h4></div>
+                <div class="col-md-4"><h4><span id="txtSName"></span></h4></div>
+                <div class="col-md-2"></div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-4"><h4 style="">Store Phone</h4></div>
+                <div class="col-md-4"><h4><span id="txtSPhone"></span></h4></div>
+                <div class="col-md-2"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-4"><h4 style="">Licence Number</h4></div>
+                <div class="col-md-4"><h4><span id="txtSLicence"></span></h4></div>
+                <div class="col-md-2"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-4"><h4 style="">Licence Number Image</h4></div>
+                <div class="col-md-4"><h4><img src="#" id="ImgSLicence" /></h4></div>
+                <div class="col-md-2"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-4"><h4 style="">Address</h4></div>
+                <div class="col-md-4"><h4><span id="txtSAddress"></span></h4></div>
+                <div class="col-md-2"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-4"><h4 style="">Pan Number</h4></div>
+                <div class="col-md-4"><h4><img src="#" id="txtPan" /></h4></div>
+                <div class="col-md-2"></div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-4"><h4 style="">Status</h4></div>
+                <div class="col-md-4"><h4><span id="txtStatus"></span></h4></div>
+                <div class="col-md-2"></div>
+            </div>
+            <hr style="width:5px;" />
+        </div>
+    </div>*@
+

@@ -12,7 +12,7 @@
         }
         else {
             var Register = $("#btnRegister");
-            var AdminType = $("txtAdminType");
+            var AdminType = $("#txtAdminType");
             var AdminId = $("#txtAdminId");
                 var Name = $("#txtName");
                 var Password = $("#txtPwd");
@@ -37,7 +37,7 @@
 
             var ReadImage = function (file) {
                 var reader = new FileReader;
-                var img = new Image;
+                var image = new Image;
 
                 reader.readAsDataURL(file);
                 reader.onload = function (_file) {
@@ -121,7 +121,7 @@
                 var file = Photo.get(0).files;
 
                 var data = new FormData();
-                data.append("Admin_Type", AdminType.text("Operational Admin"));
+                data.append("Admin_Type", AdminType.text());
                 data.append("Admin_ID", AdminId.val());
                 data.append("Name", Name.val());
                 data.append("Age", Age.val());
@@ -260,9 +260,9 @@
             <div class="col-sm-2"></div>
         </div>
         <div class="row" style="margin-bottom:10px">
-            <div class="col-md-3"> </div>
-            <div class="col-md-3">Photo</div>
-            <div class="col-md-3">
+            <div class="col-md-2"> </div>
+            <div class="col-md-4">Photo</div>
+            <div class="col-md-4">
                 <input type="file" id="image" />
                 <div class="row">
                     <div class="col-sm-12">
@@ -276,7 +276,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3"> </div>
+            <div class="col-md-2"> </div>
         </div>
         <div class="row" style="margin-bottom:15px;">
             <div class="col-sm-2"></div>

@@ -129,6 +129,7 @@
     <Content Include="Content\main.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\style.css" />
+    <Content Include="Content\User.css" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -146,6 +147,7 @@
     <Content Include="img\logo.png" />
     <Content Include="img\medicine-logo-png-1.png" />
     <Content Include="img\ContactUs\subject.jpg" />
+    <Content Include="img\Samsung1.jpg" />
     <Content Include="img\thumb.png" />
     <Content Include="fonts\fontawesome-webfont.eot" />
     <Content Include="fonts\fontawesome-webfont.ttf" />
@@ -154,8 +156,8 @@
     <Content Include="fonts\FontAwesome.otf" />
     <Content Include="Models\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Model1.Context.cs</LastGenOutput>
       <DependentUpon>Model1.edmx</DependentUpon>
+      <LastGenOutput>Model1.Context.cs</LastGenOutput>
     </Content>
     <Content Include="Models\Model1.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -166,13 +168,6 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\contactform.js" />
     <Content Include="Areas\AdminLogin\Views\web.config" />
-    <EntityDeploy Include="Models\Model1.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\Model1.edmx.diagram">
-      <DependentUpon>Model1.edmx</DependentUpon>
-    </Content>
     <Content Include="Areas\AdminLogin\Views\_ViewStart.cshtml" />
     <Content Include="Areas\AdminLogin\Views\Shared\_Layout.cshtml" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -200,9 +195,27 @@
     <Content Include="Areas\AdminLogin\Views\OperationsAdmin\AddOwner.cshtml" />
     <Content Include="Areas\AdminLogin\Views\OperationsAdmin\ManageOwner.cshtml" />
     <Content Include="Areas\AdminLogin\Views\OperationsAdmin\DeleteStore.cshtml" />
-    <Content Include="Areas\AdminLogin\Views\OperationsAdmin\AddStore.cshtml" />
     <Content Include="Areas\AdminLogin\Views\OperationsAdmin\EditStore.cshtml" />
-    <Content Include="Areas\AdminLogin\Views\OperationsAdmin\StoreDetails.cshtml" />
+    <Content Include="Areas\AdminLogin\Views\OperationsAdmin\AddStore.cshtml" />
+    <Content Include="Areas\OwnerProfile\Views\web.config" />
+    <Content Include="Areas\OwnerProfile\Views\Shared\_LayoutPage1.cshtml" />
+    <Content Include="Areas\OwnerProfile\Views\Profile\Dashboard.cshtml" />
+    <Content Include="Areas\AdminLogin\Views\OperationsAdmin\EditOwner.cshtml" />
+    <Content Include="Areas\AdminLogin\Views\OperationsAdmin\DeleteOwner.cshtml" />
+    <Content Include="Areas\OwnerProfile\Views\Profile\ChangePassword.cshtml" />
+    <Content Include="Areas\Users\Views\web.config" />
+    <Content Include="Areas\Users\Views\Shared\_LayoutPage1.cshtml" />
+    <Content Include="Areas\Users\Views\Users\Dashboard.cshtml" />
+    <Content Include="Areas\Users\Views\Users\Customer.cshtml" />
+    <Content Include="Areas\Users\Views\Users\Vendor.cshtml" />
+    <Content Include="Areas\Users\Views\Users\Company.cshtml" />
+    <EntityDeploy Include="Models\Model1.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Model1.edmx.diagram">
+      <DependentUpon>Model1.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-1.12.4.intellisense.js" />
     <Content Include="Scripts\gridmvc.js" />
     <Content Include="Scripts\gridmvc.lang.ru.js" />
@@ -214,6 +227,7 @@
     <Content Include="Scripts\MADashboard.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\MyScript.js" />
+    <Content Include="Views\MailFormate.html" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -224,8 +238,13 @@
     <Compile Include="Areas\AdminLogin\Controllers\OperationsAdminController.cs" />
     <Compile Include="Areas\AdminLogin\Controllers\WebApiMADDashBoardController.cs" />
     <Compile Include="Areas\AdminLogin\Controllers\WebApiOAController.cs" />
+    <Compile Include="Areas\OwnerProfile\Controllers\ProfileController.cs" />
+    <Compile Include="Areas\OwnerProfile\Controllers\WebApiStoreController.cs" />
+    <Compile Include="Areas\OwnerProfile\OwnerProfileAreaRegistration.cs" />
+    <Compile Include="Areas\Users\Controllers\ApiUserController.cs" />
+    <Compile Include="Areas\Users\Controllers\UsersController.cs" />
+    <Compile Include="Areas\Users\UsersAreaRegistration.cs" />
     <Compile Include="BussinessAccess\BAL.cs" />
-    <Compile Include="Controllers\ContactUsController.cs" />
     <Compile Include="Controllers\DropdownController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -237,6 +256,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AdminViewModel.cs" />
+    <Compile Include="Models\Customer_Details.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Model1.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -252,10 +274,18 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\OwnerViewModel.cs" />
     <Compile Include="Models\Owner_Registration.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Pharma_Company_Details.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StoreViewModel.cs" />
     <Compile Include="Models\Store_Registration.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Vender_Details.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -268,12 +298,12 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\ContactUs\ContactUs.cshtml" />
     <Content Include="Views\Shared\_LayoutPage1.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Scripts\jquery-1.12.4.min.map" />
     <Content Include="Views\Shared\_GridPager.cshtml" />
     <Content Include="Views\Shared\_Grid.cshtml" />
+    <Content Include="Views\Dropdown\Dropdown.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -284,6 +314,8 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\AdminLogin\Data\" />
+    <Folder Include="Areas\OwnerProfile\Data\" />
+    <Folder Include="Areas\Users\Data\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

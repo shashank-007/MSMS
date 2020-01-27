@@ -1,5 +1,4 @@
-﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -12,13 +11,11 @@
     <script src="~/Scripts/modernizr-2.8.3.js"></script>
     @*<script src="~/Scripts/MyScript.js"></script>*@
 </head>
-
-
 <body>
     <script src="~/Scripts/jquery-1.12.4.js"></script>
     <script>
         $(document).ready(function () {
-            debugger;
+            //debugger;
            // var abc = $("#RedirectTo").val();
             if (window.sessionStorage.getItem("AdminID") == null) {
                 window.location.href = "/adminlogin/adminlogin/login";
@@ -26,7 +23,7 @@
             else {
                 var Logout = $("#btnLogout");
                 Logout.click(function () {
-                    debugger;
+                    //debugger;
                     //window.sessionStorage.removeItem("AdminID");
                     window.sessionStorage.clear();
                     window.location.href = "/adminlogin/adminlogin/login";

@@ -11,15 +11,6 @@ namespace MSMS.Repository
 {
     public class Reposite : IReposite
     {
-        //public void AddAdmin(Admin admin)
-        //{
-        //    using (MSMSDBEntities db=new MSMSDBEntities())
-        //    {
-        //        db.Admins.Add(admin);
-        //        db.SaveChanges();
-        //    }
-        //}
-
         public int ChangePassword(string AdminID, string Pwd)
         {
             int i = 0;
@@ -56,7 +47,6 @@ namespace MSMS.Repository
             /// <returns></returns>
         public Admin CheckAdmLogin(string UserName, string Password)
         {
-            
             Admin Adm;
             using (MSMSDBEntities db=new MSMSDBEntities())
             {
@@ -102,22 +92,24 @@ namespace MSMS.Repository
             using (MSMSDBEntities db = new MSMSDBEntities())
             {
                 var AdminList = db.Admins.ToList();
-               
                 return AdminList;
             }
         }
 
         //2)OperationalAdmin Controller
         //2.1)This method is used to add new OA to database 
-        public void AddOwner(Owner_Registration adm)
+        public int AddOwner(Owner_Registration adm)
         {
+            int i = 0;
             using (MSMSDBEntities db = new MSMSDBEntities())
             {
                 db.Owner_Registration.Add(adm);
-                db.SaveChanges();
-            }   
+                i += db.SaveChanges();
+              
+            }
+            return i;
         }
-        //2.2)This method is used to add new OA to database
+        //2.2)This method is used to find OA from database
         public Owner_Registration GetOwnerByID(string id)
         {
             using (MSMSDBEntities db = new MSMSDBEntities())
@@ -125,6 +117,168 @@ namespace MSMS.Repository
                 Owner_Registration admin = db.Owner_Registration.Find(id);
                 return admin;
             }
+        }
+        //2.3)This method is used to get list of Owners
+        public List<Owner_Registration> GetOwnerList()
+        {
+            using (MSMSDBEntities db=new MSMSDBEntities())
+            {
+                return db.Owner_Registration.ToList();
+            }
+        }
+
+        //2.4)This method is used to add new OA to database 
+        public bool AddStore(Store_Registration adm)
+        {
+            bool flag = false;
+            int i = 0;
+            using (MSMSDBEntities db = new MSMSDBEntities())
+            {
+                db.Store_Registration.Add(adm);
+                i += db.SaveChanges();
+                if (i > 0)
+                { flag = true; }
+            }
+            return flag;
+        }
+
+        //2.5)This method is used to find the store of the owner
+        public Store_Registration GetStoreByID(string id)
+        {
+            using (MSMSDBEntities db=new MSMSDBEntities())
+            {
+                return db.Store_Registration.Find(id);
+            }
+        }
+
+        //2.6)This method is used to find the list of stores
+        public List<Store_Registration> GetStoreList()
+        {
+            using (MSMSDBEntities db=new MSMSDBEntities())
+            {
+                List<Store_Registration> list = db.Store_Registration.ToList();
+                return list;
+            }
+        }
+
+        //2.7)This method is used to check the details of owner
+        public Owner_Registration CheckOwnerLogin(string UserName, string Password)
+        {
+            Owner_Registration adm;
+            using (MSMSDBEntities db=new MSMSDBEntities())
+            {
+                adm = db.Owner_Registration.Where(m => m.Owner_Email== UserName && m.Password== Password).FirstOrDefault();
+                if (adm!=null)
+                {
+                    return adm;
+                }
+            }
+            return null;
+        }
+        //2.8)This method is used to find the stores of owner by ownerID
+        public List<Store_Registration> GetStoreByOwner(string OwnerId)
+        {  
+            using (MSMSDBEntities db=new MSMSDBEntities())
+            {
+                List<Store_Registration> adm = db.Store_Registration.Where(m=>m.Owner_Email== OwnerId).ToList();
+                return adm;
+            }
+        }
+        //2.9)This method is used to change Owner password in database
+        public int OwnerChangePassword(string ownerID, string pwd)
+        {
+            int i = 0;
+            using (MSMSDBEntities db=new MSMSDBEntities())
+            {
+                var owner = db.Owner_Registration.Find(ownerID);
+                owner.Password = pwd;
+                db.Owner_Registration.Attach(owner);
+                db.Entry(owner).Property(a => a.Password).IsModified = true;
+                i += db.SaveChanges();
+            }
+            return i;
+        }
+
+        //3)User Profile
+        //3.1)This method is used to get list of Customers
+        public List<Customer_Details> GetCustomersList()
+        {
+            using (MSMSDBEntities db=new MSMSDBEntities())
+            {
+                List<Customer_Details> list = db.Customer_Details.ToList();
+                return list;
+            }
+        }
+
+        //3.2)This method is used to get list of Vendors
+        public List<Vender_Details> GetVendorsList()
+        {
+            using (MSMSDBEntities db = new MSMSDBEntities())
+            {
+                List<Vender_Details> list = db.Vender_Details.ToList();
+                return list;
+            }
+        }
+
+        //3.3)This method is used to get list of Owners
+        public List<Pharma_Company_Details> GetCompanyList()
+        {
+            using (MSMSDBEntities db = new MSMSDBEntities())
+            {
+                List<Pharma_Company_Details> list = db.Pharma_Company_Details.ToList();
+                return list;
+            }
+        }
+
+        //3.4)This method is used to add Customers
+        public bool AddCustomer(Customer_Details customerDetails)
+        {
+            bool flag = false;
+            int i = 0;
+            using (MSMSDBEntities db=new MSMSDBEntities())
+            {
+                db.Customer_Details.Add(customerDetails);
+                i += db.SaveChanges();
+                if (i>0)
+                {
+                    return true;
+                }
+            }
+            return flag;
+        }
+
+        //3.5)This method is used to add Vendors
+        public bool AddVendors(Vender_Details venderDetails)
+        {
+            bool flag = false;
+            int i = 0;
+            using (MSMSDBEntities db = new MSMSDBEntities())
+            {
+                db.Vender_Details.Add(venderDetails);
+                i += db.SaveChanges();
+                if (i > 0)
+                {
+                    return true;
+                }
+            }
+            return flag;
+        }
+
+        //3.6)This method is used to add Company
+        public bool AddCompany(Pharma_Company_Details CompanyDetails)
+        {
+            bool flag = false;
+            int i = 0;
+            using (MSMSDBEntities db = new MSMSDBEntities())
+            {
+                db.Pharma_Company_Details.Add(CompanyDetails);
+                i += db.SaveChanges();
+                if (i > 0)
+                {
+                    return true;
+                }
+            }
+            return flag;
         }
     }
 }

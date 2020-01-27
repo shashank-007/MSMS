@@ -1,0 +1,128 @@
+﻿
+@{
+    ViewBag.Title = "DeleteOwner";
+    Layout = "~/Areas/OwnerProfile/Views/Shared/_LayoutPage1.cshtml";
+}
+
+
+<script src="~/Scripts/jquery-1.12.4.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        if (window.sessionStorage.getItem("AdminID") == null) {
+            window.location.href = "/AdminLogin/AdminLogin/Login";
+        }
+        else {
+            var Email = $("#txtEmailId");
+            var Name = $("#txtName");
+            var Password = $("txtPwd");
+            var Age = $("#txtAge");
+            var Gender = $("#txtGender");
+            var Phone = $("#txtPhone");
+            var PanNum = $("#txtPan");
+            var Aadharno = $("#txtAadhar");
+            var PAddress = $("#txtPAddress");
+            var CAddress = $("#txtCAddress");
+            var Status = $("#txtStatus");
+
+            $.ajax({
+                type: "get",
+                url: "https://localhost:44339/api/AdminLogin/WebApiOA/GetOwnerID/"+ window.sessionStorage.getItem("AdminID"),
+                dataType: "json",
+                success: function (data) {
+                    Email.text(data.Owner_Email);
+                    Name.text(data.Name);
+                    Password.text(data.Password);
+                    Age.text(data.Age);
+                    Gender.text(data.Gender);
+                    Phone.text(data.Phone);
+                    PanNum.text(data.Pan_Number);
+                    Aadharno.text(data.Aadhar_Number);
+                    PAddress.text(data.Permanent_Address);
+                    CAddress.text(data.Current_Address);
+                    Status.text(data.Status);
+                },
+                error: function (XHR) {
+                    alert('error');
+                }
+            });
+        }
+
+    });
+</script>
+
+<h2>DeleteOwner</h2>
+<div class="row" style="margin-top:50px;">
+    <div class="col-sm-12">
+        <div class="row" style="text-align:center;color:red;margin-bottom:20px;">
+            <div class="col-sm-12">
+                <h2>DeleteOwner</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-4"><h4 style="">Email Id</h4></div>
+            <div class="col-md-4"><h4><span id="txtEmailId"></span></h4></div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-4"><h4 style="">Name</h4></div>
+            <div class="col-md-4"><h4><span id="txtName"></span></h4></div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-4"><h4 style="">Password</h4></div>
+            <div class="col-md-4"><h4><span id="txtPwd"></span></h4></div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-4"><h4 style="">Age </h4></div>
+            <div class="col-md-4"><h4><span id="txtAge"></span></h4></div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-4"><h4 style="">Gender</h4></div>
+            <div class="col-md-4"><h4><span id="txtGender"></span></h4></div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-4"><h4 style="">Phone</h4></div>
+            <div class="col-md-4"><h4><span id="txtPhone"></span></h4></div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-4"><h4 style="">Pan Number</h4></div>
+            <div class="col-md-4"><h4><span id="txtPan"></span></h4></div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-4"><h4 style="">Aadhar Number</h4></div>
+            <div class="col-md-4"><h4><span id="txtAadhar"></span></h4></div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-4"><h4 style="">Permanent Address</h4></div>
+            <div class="col-md-4"><h4><span id="txtPAddress"></span></h4></div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-4"><h4 style="">Current Address</h4></div>
+            <div class="col-md-4"><h4><span id="txtCAddress"></span></h4></div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-4"><h4 style="">Status</h4></div>
+            <div class="col-md-4"><h4><span id="txtStatus"></span></h4></div>
+            <div class="col-md-2"></div>
+        </div>
+    </div>
+</div>

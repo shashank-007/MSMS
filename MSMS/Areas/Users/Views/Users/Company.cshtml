@@ -1,0 +1,73 @@
+﻿
+@{
+    ViewBag.Title = "Company";
+    Layout = "~/Areas/Users/Views/Shared/_LayoutPage1.cshtml";
+}
+
+
+<script src="~/Scripts/jquery-1.12.4.js"></script>
+<script type="text/javascript">
+    $("#tabs").tab()
+    var Customertable = $("Customertable");
+</script>
+<h2>Company</h2>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <ul class="nav nav-tabs nav-justified">
+                <li class="active" style="font-display:inherit">
+                    <a href="#AddCompany" data-toggle="tab">Add Customer</a>
+                </li>
+                <li>
+                    <a href="#ManageCompany" data-toggle="tab">Manage Customer</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div id="AddCompany" class="tab-pane fade in active">
+                    <div class="row" style="margin-top:50px;">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-4" style="font-weight:bold">Company Id</div>
+                        <div class="col-md-4"><input type="text" id="txtID" name="txtID" class="form-control" placeholder="Enter Company Id"></div>
+                        <div class="col-md-2"></div>
+                    </div>
+                    <div class="row" style="margin-top:20px;">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-4" style="font-weight:bold">Company Name</div>
+                        <div class="col-md-4"><input type="text" id="txtName" name="txtName" class="form-control" placeholder="Enter Company Name"></div>
+                        <div class="col-md-2"></div>
+                    </div>
+                    
+                    <div class="row" style="margin-top:20px;">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4"><input type="submit" id="btnAdd" name="btnAdd" class="btn btn-info" value="Add"></div>
+                        <div class="col-md-2"></div>
+                    </div>
+                </div>
+                <div id="ManageCompany" class="tab-pane fade">
+                    <div class="panel" style="margin-top:10px">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <input type="text" id="txtStoreId" class="form-control" placeholder="Store Email" />
+                            </div>
+                            <div class="col-md-3">
+                                <input type="text" id="txtStatus" class="form-control" placeholder="Status " />
+                            </div>
+                            <div class="col-md-3">
+                                <input type="text" id="txtPercent" class="form-control" placeholder="Percentage" />
+                            </div>
+                            <div class="col-md-3">
+                                <input type="submit" id="btnShow" value="Show" class="btn btn-primary" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table id="Customertable" class="table">
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

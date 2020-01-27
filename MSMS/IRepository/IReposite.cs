@@ -33,14 +33,50 @@ namespace MSMS.IRepository
 
         //2)OperationalAdmin Controller
         //2.1)This method is used to add new OA to database 
-        void AddOwner(Owner_Registration adm);
+        int AddOwner(Owner_Registration adm);
 
-        //2.2)This method is used to add new OA to database
+        //2.2)This method is used to find OA from database
         Owner_Registration GetOwnerByID(string id);
 
+        //2.3)This method is used to get list of Owners
+        List<Owner_Registration> GetOwnerList();
 
+        //2.4)This method is used to add new Store to database 
+        bool AddStore(Store_Registration adm);
 
+        //2.5)This method is used to find the store by store emailid
+        Store_Registration GetStoreByID(string id);
 
+        //2.6)This method is used to find the list of stores
+        List<Store_Registration> GetStoreList();
+
+        //2.7)This method is used to check the details of owner
+        Owner_Registration CheckOwnerLogin(string UserName,string Password);
+
+        //2.8)This method is used to find the stores of owner by ownerID
+        List<Store_Registration> GetStoreByOwner(string OwnerId);
+
+        //2.9)This method is used to change Owner password in database
+        int OwnerChangePassword(string ownerID,string pwd);
+
+        //3)User Profile
+        //3.1)This method is used to get list of Customers
+        List<Customer_Details> GetCustomersList();
+
+        //3.2)This method is used to get list of Vendors
+        List<Vender_Details> GetVendorsList();
+
+        //3.3)This method is used to get list of Owners
+        List<Pharma_Company_Details> GetCompanyList();
+
+        //3.4)This method is used to add Customers
+        bool AddCustomer(Customer_Details customerDetails);
+
+        //3.5)This method is used to add Vendors
+        bool AddVendors(Vender_Details venderDetails);
+
+        //3.6)This method is used to add Company
+        bool AddCompany(Pharma_Company_Details CompanyDetails);
 
     }
 }

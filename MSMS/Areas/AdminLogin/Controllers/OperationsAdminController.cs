@@ -1,13 +1,16 @@
-﻿using System;
+﻿using MSMS.BussinessAccess;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using MSMS.Models;
 
 namespace MSMS.Areas.AdminLogin.Controllers
 {
     public class OperationsAdminController : Controller
     {
+        BAL objBal = new BAL();
         // GET: AdminLogin/OperationsAdmin
         public ActionResult OADashboard()
         {
@@ -29,10 +32,6 @@ namespace MSMS.Areas.AdminLogin.Controllers
         {
             return View();
         }
-        public ActionResult StoreDetails()
-        {
-            return View();
-        }
         public ActionResult DeleteStore()
         {
             return View();
@@ -44,6 +43,26 @@ namespace MSMS.Areas.AdminLogin.Controllers
         public ActionResult EditStore()
         {
             return View();
+        }
+        public ActionResult EditOwner()
+        {
+            return View();
+        }
+        public ActionResult DeleteOwner()
+        {
+            return View();
+        }
+        public JsonResult NewOwner(OwnerViewModel model)
+        {
+            BAL objBal = new BAL();
+            string status = objBal.AddOwner(model);
+            return Json(status, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult NewStore(StoreViewModel model)
+        {
+            BAL objBal = new BAL();
+            bool status = objBal.AddStore(model);
+            return Json(status, JsonRequestBehavior.AllowGet);
         }
     }
 }

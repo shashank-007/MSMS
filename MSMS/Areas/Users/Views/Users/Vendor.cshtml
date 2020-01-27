@@ -1,0 +1,118 @@
+﻿
+@{
+    ViewBag.Title = "Vendor";
+    Layout = "~/Areas/Users/Views/Shared/_LayoutPage1.cshtml";
+}
+
+
+<script src="~/Scripts/jquery-1.12.4.js"></script>
+<script type="text/javascript">
+    $("#tabs").tab()
+    var Customertable = $("Customertable");
+</script>
+<h2>Vendor</h2>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <ul class="nav nav-tabs nav-justified">
+                <li class="active" style="font-display:inherit">
+                    <a href="#AddVendor" data-toggle="tab">Add Customer</a>
+                </li>
+                <li>
+                    <a href="#ManageVendor" data-toggle="tab">Manage Customer</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div id="AddVendor" class="tab-pane fade in active">
+                    <div class="row" style="margin-top:50px;">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-4" style="font-weight:bold">Vendor Id</div>
+                        <div class="col-md-4"><input type="text" id="txtID" name="txtID" class="form-control" placeholder="Enter VendorId"></div>
+                        <div class="col-md-2"></div>
+                    </div>
+                    <div class="row" style="margin-top:20px;">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-4" style="font-weight:bold">Vendor Name</div>
+                        <div class="col-md-4"><input type="text" id="txtName" name="txtName" class="form-control" placeholder="Enter Vendor Name"></div>
+                        <div class="col-md-2"></div>
+                    </div>
+                    <div class="row" style="margin-top:20px;">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-4" style="font-weight:bold">Address</div>
+                        <div class="col-sm-4">
+                            <textarea id="txtAddress" name="txtAddress" class="form-control" placeholder="Enter Address" rows="5"></textarea>
+                        </div>
+                        <div class="col-sm-2"></div>
+                    </div>
+                    <div class="row" style="margin-top:20px;">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-4" style="font-weight:bold">City</div>
+                        <div class="col-md-4"><input type="text" id="txtCity" name="txtCity" class="form-control" placeholder="Enter Vendor City"></div>
+                        <div class="col-md-2"></div>
+                    </div>
+                    <div class="row" style="margin-top:20px;">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-4" style="font-weight:bold">Phone Number</div>
+                        <div class="col-md-4"><input type="text" id="txtPhone" name="txtPhone" class="form-control" placeholder="Enter Phone Number"></div>
+                        <div class="col-md-2"></div>
+                    </div>
+                    <div class="row" style="margin-top:20px;">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-4" style="font-weight:bold">Email</div>
+                        <div class="col-md-4"><input type="text" id="txtEmail" name="txtEmail" class="form-control" placeholder="Enter Email"></div>
+                        <div class="col-md-2"></div>
+                    </div>
+                    <div class="row" style="margin-top:20px;">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-4" style="font-weight:bold">Status</div>
+                        <div class="col-md-4">
+                            <input type="radio" id="rbtnAct" name="Status" value="Active" />Active
+                            <input type="radio" id="rbtnInact" name="Status" value="InActive" />InActive
+                        </div>
+                        <div class="col-md-2"></div>
+                    </div>
+                    <div class="row" style="margin-top:20px;">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-4" style="font-weight:bold">Percentage</div>
+                        <div class="col-md-4"><input type="text" id="txtPercentage" name="txtPercentage" class="form-control" placeholder="Enter Percentage"></div>
+                        <div class="col-md-2"></div>
+                    </div>
+                    <div class="row" style="margin-top:20px;">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-4" style="font-weight:bold">Vendor Company Id</div>
+                        <div class="col-md-4"><input type="text" id="txtCompany" name="txtCompany" class="form-control" placeholder="Enter Vendor Company Id"></div>
+                        <div class="col-md-2"></div>
+                    </div>
+                    <div class="row" style="margin-top:20px;">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4"><input type="submit" id="btnAdd" name="btnAdd" class="btn btn-info" value="Add"></div>
+                        <div class="col-md-2"></div>
+                    </div>
+                </div>
+                <div id="ManageVendor" class="tab-pane fade">
+                    <div class="panel" style="margin-top:10px">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <input type="text" id="txtStoreId" class="form-control" placeholder="Store Email" />
+                            </div>
+                            <div class="col-md-3">
+                                <input type="text" id="txtStatus" class="form-control" placeholder="Status " />
+                            </div>
+                            <div class="col-md-3">
+                                <input type="text" id="txtPercent" class="form-control" placeholder="Percentage" />
+                            </div>
+                            <div class="col-md-3">
+                                <input type="submit" id="btnShow" value="Show" class="btn btn-primary" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table id="Customertable" class="table">
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

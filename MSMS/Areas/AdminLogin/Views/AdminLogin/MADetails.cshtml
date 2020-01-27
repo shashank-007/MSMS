@@ -42,7 +42,7 @@
                     Aadharno.text(data.Aadhar_Number);
                     PAddress.text(data.Permanent_Address);
                     CAddress.text(data.Current_Address);
-                    Photo.text(data.Photo);
+                    Photo.attr("src", "data:image/jpg;base64," + data.Photo);
                     Status.text(data.Status);
                     Ref.text(data.Reference);
                 },
@@ -126,7 +126,7 @@
         <div class="row">
             <div class="col-md-2"></div>
             <div class="col-md-4"><h4 style="">Photo</h4></div>
-            <div class="col-md-4"><h4><span id="txtPhoto"></span></h4></div>
+            <div class="col-md-4"><h4><img src="#" id="txtPhoto"/></h4></div>
             <div class="col-md-2"></div>
         </div>
         <div class="row">

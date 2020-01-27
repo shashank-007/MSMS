@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="MSMSDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="MSMSDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Admin">
           <Key>
             <PropertyRef Name="Admin_ID" />
@@ -24,6 +24,18 @@
           <Property Name="Password" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Reference" Type="nvarchar" MaxLength="8" />
         </EntityType>
+        <EntityType Name="Customer_Details">
+          <Key>
+            <PropertyRef Name="Customer_ID" />
+          </Key>
+          <Property Name="Customer_ID" Type="int" Nullable="false" />
+          <Property Name="Customer_Name" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="City" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Phone_No" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="Status" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="Percentage" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Owner_Registration">
           <Key>
             <PropertyRef Name="Owner_Email" />
@@ -31,6 +43,7 @@
           <Property Name="Owner_Email" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Password" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Photo" Type="image" />
           <Property Name="Age" Type="int" Nullable="false" />
           <Property Name="Gender" Type="nvarchar" MaxLength="6" Nullable="false" />
           <Property Name="Phone" Type="nvarchar" MaxLength="15" Nullable="false" />
@@ -39,6 +52,13 @@
           <Property Name="Permanent_Address" Type="nvarchar" MaxLength="500" Nullable="false" />
           <Property Name="Current_Address" Type="nvarchar" MaxLength="500" Nullable="false" />
           <Property Name="Status" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Pharma_Company_Details">
+          <Key>
+            <PropertyRef Name="Company_Id" />
+          </Key>
+          <Property Name="Company_Id" Type="int" Nullable="false" />
+          <Property Name="Company_Name" Type="nvarchar" MaxLength="200" Nullable="false" />
         </EntityType>
         <EntityType Name="Store_Registration">
           <Key>
@@ -55,6 +75,32 @@
           <Property Name="Status" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="Owner_Email" Type="nvarchar" MaxLength="200" />
         </EntityType>
+        <EntityType Name="Vender_Details">
+          <Key>
+            <PropertyRef Name="Vender_ID" />
+          </Key>
+          <Property Name="Vender_ID" Type="int" Nullable="false" />
+          <Property Name="Vender_Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Address" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="City" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Phone_No" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="Status" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="Percentage" Type="int" Nullable="false" />
+          <Property Name="Vender_Company_Id" Type="int" />
+        </EntityType>
+        <Association Name="fk_Pharma">
+          <End Role="Pharma_Company_Details" Type="Self.Pharma_Company_Details" Multiplicity="0..1" />
+          <End Role="Vender_Details" Type="Self.Vender_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pharma_Company_Details">
+              <PropertyRef Name="Company_Id" />
+            </Principal>
+            <Dependent Role="Vender_Details">
+              <PropertyRef Name="Vender_Company_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_Store">
           <End Role="Owner_Registration" Type="Self.Owner_Registration" Multiplicity="0..1" />
           <End Role="Store_Registration" Type="Self.Store_Registration" Multiplicity="*" />
@@ -69,14 +115,22 @@
         </Association>
         <EntityContainer Name="MSMSDBModelStoreContainer">
           <EntitySet Name="Admin" EntityType="Self.Admin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Customer_Details" EntityType="Self.Customer_Details" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Owner_Registration" EntityType="Self.Owner_Registration" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Pharma_Company_Details" EntityType="Self.Pharma_Company_Details" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Store_Registration" EntityType="Self.Store_Registration" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Vender_Details" EntityType="Self.Vender_Details" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="fk_Pharma" Association="Self.fk_Pharma">
+            <End Role="Pharma_Company_Details" EntitySet="Pharma_Company_Details" />
+            <End Role="Vender_Details" EntitySet="Vender_Details" />
+          </AssociationSet>
           <AssociationSet Name="fk_Store" Association="Self.fk_Store">
             <End Role="Owner_Registration" EntitySet="Owner_Registration" />
             <End Role="Store_Registration" EntitySet="Store_Registration" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="MSMSDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -99,51 +153,78 @@
           <Property Name="Password" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Reference" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityContainer Name="MSMSDBEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Admins" EntityType="Self.Admin" />
-          <EntitySet Name="Owner_Registration" EntityType="MSMSDBModel.Owner_Registration" />
-          <EntitySet Name="Store_Registration" EntityType="MSMSDBModel.Store_Registration" />
-          <AssociationSet Name="fk_Store" Association="MSMSDBModel.fk_Store">
-            <End Role="Owner_Registration" EntitySet="Owner_Registration" />
-            <End Role="Store_Registration" EntitySet="Store_Registration" />
-          </AssociationSet>
-        </EntityContainer>
+        <EntityType Name="Customer_Details">
+          <Key>
+            <PropertyRef Name="Customer_ID" />
+          </Key>
+          <Property Name="Customer_ID" Type="Int32" Nullable="false" />
+          <Property Name="Customer_Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="City" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Phone_No" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Status" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Percentage" Type="Int32" Nullable="false" />
+        </EntityType>
         <EntityType Name="Owner_Registration">
           <Key>
             <PropertyRef Name="Owner_Email" />
           </Key>
-          <Property Name="Owner_Email" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Password" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Owner_Email" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
           <Property Name="Age" Type="Int32" Nullable="false" />
-          <Property Name="Gender" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="true" />
-          <Property Name="Phone" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="Gender" Type="String" MaxLength="6" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Phone" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Pan_Number" Type="Binary" MaxLength="Max" FixedLength="false" />
           <Property Name="Aadhar_Number" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <Property Name="Permanent_Address" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="Current_Address" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="Status" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Store_Registration" Relationship="MSMSDBModel.fk_Store" FromRole="Owner_Registration" ToRole="Store_Registration" />
+          <Property Name="Permanent_Address" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Current_Address" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Status" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Store_Registration" Relationship="Self.fk_Store" FromRole="Owner_Registration" ToRole="Store_Registration" />
+        </EntityType>
+        <EntityType Name="Pharma_Company_Details">
+          <Key>
+            <PropertyRef Name="Company_Id" />
+          </Key>
+          <Property Name="Company_Id" Type="Int32" Nullable="false" />
+          <Property Name="Company_Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Vender_Details" Relationship="Self.fk_Pharma" FromRole="Pharma_Company_Details" ToRole="Vender_Details" />
         </EntityType>
         <EntityType Name="Store_Registration">
           <Key>
             <PropertyRef Name="StoreEmail" />
           </Key>
-          <Property Name="StoreEmail" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Store_Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Phone" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
-          <Property Name="License_Number" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="StoreEmail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Store_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Phone" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="License_Number" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="License_Image_Copy" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <Property Name="Address" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="Pan_Number" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Pan_Number" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Percentage" Type="Int32" Nullable="false" />
-          <Property Name="Status" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Owner_Email" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Owner_Registration" Relationship="MSMSDBModel.fk_Store" FromRole="Store_Registration" ToRole="Owner_Registration" />
+          <NavigationProperty Name="Owner_Registration" Relationship="Self.fk_Store" FromRole="Store_Registration" ToRole="Owner_Registration" />
+        </EntityType>
+        <EntityType Name="Vender_Details">
+          <Key>
+            <PropertyRef Name="Vender_ID" />
+          </Key>
+          <Property Name="Vender_ID" Type="Int32" Nullable="false" />
+          <Property Name="Vender_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="City" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Phone_No" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Status" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Percentage" Type="Int32" Nullable="false" />
+          <Property Name="Vender_Company_Id" Type="Int32" />
+          <NavigationProperty Name="Pharma_Company_Details" Relationship="Self.fk_Pharma" FromRole="Vender_Details" ToRole="Pharma_Company_Details" />
         </EntityType>
         <Association Name="fk_Store">
-          <End Type="MSMSDBModel.Owner_Registration" Role="Owner_Registration" Multiplicity="0..1" />
-          <End Type="MSMSDBModel.Store_Registration" Role="Store_Registration" Multiplicity="*" />
+          <End Role="Owner_Registration" Type="Self.Owner_Registration" Multiplicity="0..1" />
+          <End Role="Store_Registration" Type="Self.Store_Registration" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Owner_Registration">
               <PropertyRef Name="Owner_Email" />
@@ -153,6 +234,34 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_Pharma">
+          <End Role="Pharma_Company_Details" Type="Self.Pharma_Company_Details" Multiplicity="0..1" />
+          <End Role="Vender_Details" Type="Self.Vender_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pharma_Company_Details">
+              <PropertyRef Name="Company_Id" />
+            </Principal>
+            <Dependent Role="Vender_Details">
+              <PropertyRef Name="Vender_Company_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MSMSDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Admins" EntityType="Self.Admin" />
+          <EntitySet Name="Customer_Details" EntityType="Self.Customer_Details" />
+          <EntitySet Name="Owner_Registration" EntityType="Self.Owner_Registration" />
+          <EntitySet Name="Pharma_Company_Details" EntityType="Self.Pharma_Company_Details" />
+          <EntitySet Name="Store_Registration" EntityType="Self.Store_Registration" />
+          <EntitySet Name="Vender_Details" EntityType="Self.Vender_Details" />
+          <AssociationSet Name="fk_Store" Association="Self.fk_Store">
+            <End Role="Owner_Registration" EntitySet="Owner_Registration" />
+            <End Role="Store_Registration" EntitySet="Store_Registration" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Pharma" Association="Self.fk_Pharma">
+            <End Role="Pharma_Company_Details" EntitySet="Pharma_Company_Details" />
+            <End Role="Vender_Details" EntitySet="Vender_Details" />
+          </AssociationSet>
+        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -179,36 +288,73 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Customer_Details">
+            <EntityTypeMapping TypeName="MSMSDBModel.Customer_Details">
+              <MappingFragment StoreEntitySet="Customer_Details">
+                <ScalarProperty Name="Customer_ID" ColumnName="Customer_ID" />
+                <ScalarProperty Name="Customer_Name" ColumnName="Customer_Name" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Phone_No" ColumnName="Phone_No" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Percentage" ColumnName="Percentage" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Owner_Registration">
             <EntityTypeMapping TypeName="MSMSDBModel.Owner_Registration">
               <MappingFragment StoreEntitySet="Owner_Registration">
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Current_Address" ColumnName="Current_Address" />
-                <ScalarProperty Name="Permanent_Address" ColumnName="Permanent_Address" />
-                <ScalarProperty Name="Aadhar_Number" ColumnName="Aadhar_Number" />
-                <ScalarProperty Name="Pan_Number" ColumnName="Pan_Number" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="Gender" ColumnName="Gender" />
-                <ScalarProperty Name="Age" ColumnName="Age" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Owner_Email" ColumnName="Owner_Email" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Pan_Number" ColumnName="Pan_Number" />
+                <ScalarProperty Name="Aadhar_Number" ColumnName="Aadhar_Number" />
+                <ScalarProperty Name="Permanent_Address" ColumnName="Permanent_Address" />
+                <ScalarProperty Name="Current_Address" ColumnName="Current_Address" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pharma_Company_Details">
+            <EntityTypeMapping TypeName="MSMSDBModel.Pharma_Company_Details">
+              <MappingFragment StoreEntitySet="Pharma_Company_Details">
+                <ScalarProperty Name="Company_Id" ColumnName="Company_Id" />
+                <ScalarProperty Name="Company_Name" ColumnName="Company_Name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Store_Registration">
             <EntityTypeMapping TypeName="MSMSDBModel.Store_Registration">
               <MappingFragment StoreEntitySet="Store_Registration">
+                <ScalarProperty Name="StoreEmail" ColumnName="StoreEmail" />
+                <ScalarProperty Name="Store_Name" ColumnName="Store_Name" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="License_Number" ColumnName="License_Number" />
+                <ScalarProperty Name="License_Image_Copy" ColumnName="License_Image_Copy" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Pan_Number" ColumnName="Pan_Number" />
+                <ScalarProperty Name="Percentage" ColumnName="Percentage" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="Owner_Email" ColumnName="Owner_Email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vender_Details">
+            <EntityTypeMapping TypeName="MSMSDBModel.Vender_Details">
+              <MappingFragment StoreEntitySet="Vender_Details">
+                <ScalarProperty Name="Vender_ID" ColumnName="Vender_ID" />
+                <ScalarProperty Name="Vender_Name" ColumnName="Vender_Name" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Phone_No" ColumnName="Phone_No" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="Percentage" ColumnName="Percentage" />
-                <ScalarProperty Name="Pan_Number" ColumnName="Pan_Number" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="License_Image_Copy" ColumnName="License_Image_Copy" />
-                <ScalarProperty Name="License_Number" ColumnName="License_Number" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="Store_Name" ColumnName="Store_Name" />
-                <ScalarProperty Name="StoreEmail" ColumnName="StoreEmail" />
+                <ScalarProperty Name="Vender_Company_Id" ColumnName="Vender_Company_Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -228,7 +374,7 @@
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="true" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
-        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>
     </Options>

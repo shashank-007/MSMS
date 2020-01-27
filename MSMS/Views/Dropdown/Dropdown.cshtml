@@ -1,0 +1,54 @@
+﻿
+@{
+    ViewBag.Title = "Dropdown";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+
+<script src="~/Scripts/jquery-1.12.4.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        if (window.sessionStorage.getItem("OwnerID") == null) {
+            window.location.href = "/Login/Index";
+        }
+        else
+        {
+            var dropdown = $("#ddldropdown");
+            debugger;
+            $.ajax({
+                type: "Get",
+                url: "https://localhost:44339/api/OwnerProfile/WebApiStore/GetStoreByOwner?OwnerId=" + window.sessionStorage.getItem("OwnerID"),
+                dataType: "json",
+                success: function (data) {
+                    alert(data.StoreEmail);
+                    dropdown.empty();
+                    dropdown.append("<option value='0'>-Select Store-</option>");
+                    $.each(data, function (index, item) {
+                        dropdown.append("<option value='" + item.StoreEmail + "'>" + item.StoreEmail + "</option>");
+                    });
+                },
+                error: function (XHR) {
+                    var responseData = JSON.parse(XHR.responseText);
+                    alert(XHR.Status + ":" + responseData.Message);
+                }
+            });
+
+            dropdown.change(function () {
+                window.sessionStorage.setItem("store",dropdown.val());
+             });  
+
+            $("#btnselect").click(function () {
+                if (window.sessionStorage.getItem("store") == null) {
+                    alert("Please Select Store");
+                } else {
+                    window.location.href = "/OwnerProfile/Profile/Dashboard";
+                }
+            });
+        }
+    });
+</script>
+
+<h1>Select a Branch</h1>
+<div>
+    <select id="ddldropdown" name="ddldropdown" class="form-control" style="width:300px;height:50px;font-size:medium;"></select>
+</div>
+<input type="submit" id="btnselect" value="SELECT">

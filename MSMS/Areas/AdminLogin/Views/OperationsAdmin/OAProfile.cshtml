@@ -11,10 +11,10 @@
         if (window.sessionStorage.getItem("AdminID") == null) {
             window.location = "Login";
         }
-        else { 
-            var Email = $("#txtEmailId");
+        else {
+            var AdminType = $("#txtAdminType");
+            var AdminId = $("#txtAdminId");
             var Name = $("#txtName");
-            var Password = $("txtPwd");
             var Age = $("#txtAge");
             var Gender = $("#txtGender");
             var Phone = $("#txtPhone");
@@ -22,16 +22,18 @@
             var Aadharno = $("#txtAadhar");
             var PAddress = $("#txtPAddress");
             var CAddress = $("#txtCAddress");
+            var Photo = $("#txtPhoto");
             var Status = $("#txtStatus");
-            
+            var Ref = $("#txtRef");
+
             $.ajax({
                 type: "get",
-                url: "https://localhost:44339/api/AdminLogin/WebApiOA/GetOwnerID/"+ window.sessionStorage.getItem("AdminID"),
+                url: "https://localhost:44339/api/AdminLogin/WebApiMADDashBoard/GetAdminByID/" + window.sessionStorage.getItem("AdminID"),
                 dataType: "json",
                 success: function (data) {
-                    Email.text(data.Owner_Email);
+                    AdminType.text(data.Admin_Type);
+                    AdminId.text(data.Admin_ID);
                     Name.text(data.Name);
-                    Password.text(data.Password);
                     Age.text(data.Age);
                     Gender.text(data.Gender);
                     Phone.text(data.Phone);
@@ -39,7 +41,9 @@
                     Aadharno.text(data.Aadhar_Number);
                     PAddress.text(data.Permanent_Address);
                     CAddress.text(data.Current_Address);
+                    Photo.attr("src", "data:image/jpg;base64," + data.Photo);
                     Status.text(data.Status);
+                    Ref.text(data.Reference);
                 },
                 error: function (XHR) {
                     alert('error');
@@ -55,25 +59,25 @@
     <div class="col-sm-12">
         <div class="row" style="text-align:center;color:red;margin-bottom:20px;">
             <div class="col-sm-12">
-                <h2>OAProfile</h2>
+                <h2>OADetails</h2>
             </div>
         </div>
         <div class="row">
             <div class="col-md-2"></div>
-            <div class="col-md-4"><h4 style="">Email Id</h4></div>
-            <div class="col-md-4"><h4><span id="txtEmailId"></span></h4></div>
+            <div class="col-md-4"><h4 style="">Admin Type</h4></div>
+            <div class="col-md-4"><h4><span id="txtAdminType"></span></h4></div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-4"><h4 style="">Admin Id</h4></div>
+            <div class="col-md-4"><h4><span id="txtAdminId"></span></h4></div>
             <div class="col-md-2"></div>
         </div>
         <div class="row">
             <div class="col-md-2"></div>
             <div class="col-md-4"><h4 style="">Name</h4></div>
             <div class="col-md-4"><h4><span id="txtName"></span></h4></div>
-            <div class="col-md-2"></div>
-        </div>
-        <div class="row">
-            <div class="col-md-2"></div>
-            <div class="col-md-4"><h4 style="">Password</h4></div>
-            <div class="col-md-4"><h4><span id="txtPwd"></span></h4></div>
             <div class="col-md-2"></div>
         </div>
         <div class="row">
@@ -120,8 +124,20 @@
         </div>
         <div class="row">
             <div class="col-md-2"></div>
+            <div class="col-md-4"><h4 style="">Photo</h4></div>
+            <div class="col-md-4"><h4><img src="#" id="txtPhoto" /></h4></div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
             <div class="col-md-4"><h4 style="">Status</h4></div>
             <div class="col-md-4"><h4><span id="txtStatus"></span></h4></div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-4"><h4 style="">Reference</h4></div>
+            <div class="col-md-4"><h4><span id="txtRef"></span></h4></div>
             <div class="col-md-2"></div>
         </div>
     </div>

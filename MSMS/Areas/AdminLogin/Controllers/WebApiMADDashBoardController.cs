@@ -122,6 +122,7 @@ namespace MSMS.Areas.AdminLogin.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
             }
         }
+
         [HttpPost]
         [Route("api/Admin/AdminApi/ChangePassword")]
         public HttpResponseMessage ChangePassword(string AdminId, string Pwd)

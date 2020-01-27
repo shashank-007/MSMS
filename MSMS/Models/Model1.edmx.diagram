@@ -4,11 +4,15 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="a8b4e21bce254af3becb720363a40918" Name="Diagram1">
-        <EntityTypeShape EntityType="MSMSDBModel.Admin" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="MSMSDBModel.Owner_Registration" Width="1.5" PointX="3.375" PointY="1" />
-        <EntityTypeShape EntityType="MSMSDBModel.Store_Registration" Width="1.5" PointX="5.625" PointY="1.125" />
-        <AssociationConnector Association="MSMSDBModel.fk_Store" />
+      <Diagram DiagramId="8bb94d2257634a2bac1d321180634357" Name="Diagram1">
+        <EntityTypeShape EntityType="MSMSDBModel.Admin" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MSMSDBModel.Customer_Details" Width="1.5" PointX="5.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MSMSDBModel.Owner_Registration" Width="1.5" PointX="0.75" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MSMSDBModel.Pharma_Company_Details" Width="1.5" PointX="0.75" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="MSMSDBModel.Store_Registration" Width="1.5" PointX="3" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="MSMSDBModel.Vender_Details" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <AssociationConnector Association="MSMSDBModel.fk_Store" ManuallyRouted="false" />
+        <AssociationConnector Association="MSMSDBModel.fk_Pharma" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

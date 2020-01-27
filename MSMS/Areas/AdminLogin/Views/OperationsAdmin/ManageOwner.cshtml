@@ -4,5 +4,151 @@
     Layout = "~/Areas/AdminLogin/Views/Shared/_OperationalAdminLayout.cshtml";
 }
 
+
+<script src="~/Scripts/jquery-1.12.4.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        if (window.sessionStorage.getItem("AdminID" == null)) {
+            window.location = "Login";
+        } else {
+            $("#tabs").tab()
+            var OwnerTable = $("#Ownertable");
+            var StoreTable = $("#Storetable");
+            var Show = $("#btnShow");
+
+            $.ajax({
+                type: "Get",
+                url: "https://localhost:44339/api/AdminLogin/WebApiOA/GetOwnerList",
+                dataType: "json",
+                success: function (data) {
+                    OwnerTable.empty();
+                    OwnerTable.append("<tr><th>OwnerEmail</th><th>Password</th><th>Name</th><th>ProfileImage</th><th>Age</th><th>Gender</th><th>Phone</th><th>PanImage</th><th>AadharImage</th><th>PermanentAddress</th><th>CurrentAddress</th><th>Status</th><th>Operation</th></tr>");
+                    $.each(data, function (index, item) {
+                        OwnerTable.append("<tr><td>" + item.Owner_Email + "</td><td>" + item.Password + "</td><td>" + item.Name + "</td><td> <img src='data:image/png;base64," + item.Photo + "' style='height:150px;width250px' /></td><td>" + item.Age + "</td><td>" + item.Gender + "</td><td>" + item.Phone + "</td><td> <img src='data:image/png;base64," + item.Pan_Number + " ' style='height:150px;width250px' /> </td><td> <img src='data:image/png;base64," + item.Aadhar_Number + " ' style='height:150px;width250px' /> </td><td>" + item.Permanent_Address + "</td><td>" + item.Current_Address + "</td><td>" + item.Status + "</td><td><a class='getid' href=@Url.Action("EditOwner","OperationsAdmin")>Edit</a></td><td><a class='getid' href=@Url.Action("DeleteOwner","OperationsAdmin")>Delete</a></td></tr>");
+                    });
+                    $('.getid').click(function () {
+                        var oemail = $(this).closest("tr").find("td:nth-child(1)").text();
+                        window.sessionStorage.setItem("OEmail", oemail);
+                    });
+                },
+                error: function (XHR) {
+                    var responseData = JSON.parse(XHR.responseText);
+                    alert(XHR.status + ":" + responseData.Message);
+                }
+            });
+
+            $.ajax({
+                type: "Get",
+                url: "https://localhost:44339/api/AdminLogin/WebApiOA/GetStoreList",
+                dataType: "json",
+                success: function (data) {
+                    StoreTable.empty();
+                    StoreTable.append("<tr><th>OwnerEmail</th><th>StoreEmail</th><th>StoreName</th><th>Phone</th><th>LicenceNumber</th><th>Licence Image</th><th>Address</th><th>Pan Number</th><th>Percentage</th><th>Status</th><th>Operations</th></tr>");
+                    $.each(data, function (index, item) {
+                        StoreTable.append("<tr><td>" + item.Owner_Email + "</td><td>" + item.StoreEmail + "</td><td>" + item.StoreName + "</td><td>" + item.Phone + "</td><td>" + item.License_Number + "</td><td> <img src='data:image/png;base64," + item.License_Image_Copy + "' style='height:150px;width250px' /> </td><td>" + item.Address + "</td><td>" + item.Pan_Number + "</td><td>" + item.Percentage + "</td><td>" + item.Status + "</td><td><a class='getid' href=@Url.Action("EditStore","OperationsAdmin")>Edit</a></td><td><a class='getid' href=@Url.Action("DeleteStore","OperationsAdmin")>Delete</a></td></tr>");
+                    });
+                    $('.getid').click(function () {
+                        var semail = $(this).closest("tr").find("td:nth-child(2)").text();
+                        window.sessionStorage.setItem("SEmail", semail);
+                    });
+                },
+                error: function (XHR) {
+                    var responseData = JSON.parse(XHR.responseText);
+                    alert(XHR.status + " : " + responseData.Message);
+                }
+            });
+            Show.click(function () {
+                debugger;
+                var Email = $("#txtStoreId");
+                var Status = $("#txtStatus");
+                var Percent = $("#txtPercent");
+
+                if (Email.val() == "") {
+                    Email.val("store");
+                }
+
+                if (Status.val() == "") {
+                    Status.val("store");
+                }
+
+                if (Percent.val() == 0) {
+                    Percent.val(0);
+                }
+
+                $.ajax({
+                    type: "Get",
+                    url: "https://localhost:44339/api/AdminLogin/WebApiOA/SearchStore?Email=" + Email.val() + "&Status=" + Status.val() + "&Percent=" + Percent.val(),
+                    dataType: "Json",
+                    success: function (data) {
+                        StoreTable.empty();
+                        StoreTable.append("<tr><th>OwnerEmail</th><th>StoreEmail</th><th>StoreName</th><th>Phone</th><th>LicenceNumber</th><th>Licence Image</th><th>Address</th><th>Pan Number</th><th>Percentage</th><th>Status</th><th>Operations</th></tr>");
+                        $.each(data, function (index, item) {
+                            StoreTable.append("<tr><td>" + item.Owner_Email + "</td><td>" + item.StoreEmail + "</td><td>" + item.StoreName + "</td><td>" + item.Phone + "</td><td>" + item.License_Number + "</td><td><img src='data:image/png;base64," + item.License_Image_Copy + "' style='height:150px;width250px' /> </td> <td>" + item.Address + "</td><td>" + item.Pan_Number + "</td><td>" + item.Percentage + "</td><td>" + item.Status + "</td><td><a class='getid' href=@Url.Action("EditStore","OperationsAdmin")>Edit</a></td><td><a class='getid' href=@Url.Action("DeleteStore","OperationsAdmin")>Delete</a></td></tr>");
+                        });
+                        $('.getid').click(function () {
+                            var semail = $(this).closest("tr").find("td:nth-child(2)").text();
+                            window.sessionStorage.setItem("SEmail", semail);
+                        });
+                        Email.val("");
+                        Status.val("");
+                        Percent.val("");
+                    },
+                    error: function (XHR) {
+                        var responseData = JSON.parse(XHR.responseText);
+                        alert(XHR.status + " : " + responseData.Message);
+                    }
+                });
+            });
+        }
+    });   
+</script>
 <h2>ManageOwner</h2>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <ul class="nav nav-tabs nav-justified">
+                <li class="active" style="font-display:inherit">
+                    <a href="#ManageOwner" data-toggle="tab">Owner Details</a>
+                </li>
+                <li>
+                    <a href="#ManageStore" data-toggle="tab">Store Details</a>
+                </li>
+                <li>
+                    <a href="#" onclick="window.location = 'AddStore';" data-toggle="tab">Add NewStore</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div id="ManageOwner" class="tab-pane fade in active">
+                    <div class="table-responsive">
+                        <table id="Ownertable" class="table table-striped" style="margin-top:20px;">
+                        </table>
+                    </div>
+                </div>
+                <div id="ManageStore" class="tab-pane fade">
+                    <div class="panel" style="margin-top:10px">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <input type="text" id="txtStoreId" class="form-control" placeholder="Store Email" />
+                            </div>
+                            <div class="col-md-3">
+                                <input type="text" id="txtStatus" class="form-control" placeholder="Status " />
+                            </div>
+                            <div class="col-md-3">
+                                <input type="text" id="txtPercent" class="form-control" placeholder="Percentage" />
+                            </div>
+                            <div class="col-md-3">
+                                <input type="submit" id="btnShow" value="Show" class="btn btn-primary" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table id="Storetable" class="table">
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
