@@ -59,6 +59,12 @@ namespace MSMS.IRepository
         //2.9)This method is used to change Owner password in database
         int OwnerChangePassword(string ownerID,string pwd);
 
+        //2.10)This method is used to delete owner from database
+        void DeleteOwner(string id);
+
+        //2.11)This method is used to edit owner in database
+        int EditOwner(Owner_Registration adm);
+
         //3)User Profile
         //3.1)This method is used to get list of Customers
         List<Customer_Details> GetCustomersList();

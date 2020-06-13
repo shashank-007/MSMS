@@ -20,6 +20,11 @@ namespace MSMS.Areas.OwnerProfile.Controllers
             return View();
         }
 
+        public ActionResult Profile()
+        {
+            return View();
+        }
+
         public ActionResult ChangePassword()
         {
             return View();

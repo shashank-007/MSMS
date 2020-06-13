@@ -1,4 +1,6 @@
-﻿
+﻿@model IEnumerable<MSMS.Models.Vender_Details>
+
+@using GridMvc.Html
 @{
     ViewBag.Title = "Vendor";
     Layout = "~/Areas/Users/Views/Shared/_LayoutPage1.cshtml";
@@ -7,8 +9,68 @@
 
 <script src="~/Scripts/jquery-1.12.4.js"></script>
 <script type="text/javascript">
-    $("#tabs").tab()
-    var Customertable = $("Customertable");
+    $(document).ready(function () {
+        var dropdown = $("#dropdown");
+        $("#tabs").tab;
+                $.ajax({
+                    type: "get",
+                    url: "https://localhost:44339/api/Users/ApiUser/GetCompanyList",
+                    dataType: "json",
+                    success: function (data) {
+                        alert(data);
+                        dropdown.empty();
+                        dropdown.append("<option value='0'>-Select Company-</option>")
+                        $.each(data, function (index, item) {
+                            dropdown.append("<option value='" + item.Company_Id + "'>" + item.Company_Name + "</option>");
+                        });
+                    },
+                    error: function (XHR) {
+                        var responseData = JSON.parse(XHR.responseText);
+                        alert(XHR.Status + ":" + responseData.Message);
+                    }
+                });
+                dropdown.change(function () {
+                    OEmailId.val(dropdown.val());
+                    //$('#OEmailId').attr('readonly', true);
+                    //$('#OEmailId').addClass('input-disabled');
+                });  
+
+        $("#btnAdd").click(function () {
+            var Id = $("#txtID");
+            var Name = $("#txtName");
+            var City = $("#txtCity");
+            var Phone = $("#txtPhone");
+            var Email = $("#txtEmail");
+            var Status = $("input[name='Status']:checked").length;
+            var Percentage = $("#txtPercentage");
+            var dropdown = $("#dropdown");
+
+            var CustObj = {
+                "Vender_ID": Id.val(),
+                "Vender_Name": Name.val(),
+                "City": City.val(),
+                "Phone_No": Phone.val(),
+                "Email": Email.val(),
+                "Status": $("input[name='Status']:checked").val(),
+                "Percentage": Percentage.val(),
+                "Vender_Company_Id": dropdown.val()
+            }
+            $.ajax({
+                type: "post",
+                url: "https://localhost:44339/api/Users/ApiUser/AddVendors",
+                dataType: "json",
+                data: JSON.stringify(CustObj),
+                contentType: "application/json",
+                success: function (data) {
+                    alert("Record " + data.Customer_ID + " Was Created Successfully...!");
+                },
+                error: function (XHR) {
+                    var responseData = JSON.parse(XHR.responseText);
+                    alert(XHR.status + " : " + responseData.Message);
+                }
+            });
+        });
+    });
 </script>
 <h2>Vendor</h2>
 <div class="container">
@@ -16,10 +78,10 @@
         <div class="col-md-12">
             <ul class="nav nav-tabs nav-justified">
                 <li class="active" style="font-display:inherit">
-                    <a href="#AddVendor" data-toggle="tab">Add Customer</a>
+                    <a href="#AddVendor" data-toggle="tab">Add Vendor</a>
                 </li>
                 <li>
-                    <a href="#ManageVendor" data-toggle="tab">Manage Customer</a>
+                    <a href="#ManageVendor" data-toggle="tab">Manage Vendor</a>
                 </li>
             </ul>
             <div class="tab-content">
@@ -80,7 +142,9 @@
                     <div class="row" style="margin-top:20px;">
                         <div class="col-md-2"></div>
                         <div class="col-md-4" style="font-weight:bold">Vendor Company Id</div>
-                        <div class="col-md-4"><input type="text" id="txtCompany" name="txtCompany" class="form-control" placeholder="Enter Vendor Company Id"></div>
+                        <div class="col-md-4">
+                            <select id="dropdown" name="dropdown" class="form-control"></select>
+                        </div>
                         <div class="col-md-2"></div>
                     </div>
                     <div class="row" style="margin-top:20px;">
@@ -91,27 +155,34 @@
                     </div>
                 </div>
                 <div id="ManageVendor" class="tab-pane fade">
-                    <div class="panel" style="margin-top:10px">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <input type="text" id="txtStoreId" class="form-control" placeholder="Store Email" />
-                            </div>
-                            <div class="col-md-3">
-                                <input type="text" id="txtStatus" class="form-control" placeholder="Status " />
-                            </div>
-                            <div class="col-md-3">
-                                <input type="text" id="txtPercent" class="form-control" placeholder="Percentage" />
-                            </div>
-                            <div class="col-md-3">
-                                <input type="submit" id="btnShow" value="Show" class="btn btn-primary" />
-                            </div>
+                    <div style="margin-top:20px;">
+                        <div class="code-cut">
+                            @Html.Grid(Model).Columns(columns =>
+                                            {
+                                                columns.Add(c => c.Vender_ID).Titled("Vender_ID").Filterable(true);
+                                                columns.Add(c => c.Vender_Name).Titled("Vender_Name").Filterable(true);
+                                                columns.Add(c => c.Phone_No).Titled("Phone_No").Filterable(true);
+                                                columns.Add(c => c.Email).Titled("Email").Filterable(true);
+                                                columns.Add(c => c.City).Titled("City").Filterable(true);
+                                                columns.Add(c => c.Status).Titled("Status").Filterable(true);
+                                                columns.Add(c => c.Percentage).Titled("Percentage").Filterable(true);
+                                                columns.Add(c => c.Vender_Company_Id).Titled("Vender_Company_Id").Filterable(true);
+
+
+                                                columns.Add().Titled("Edit")
+                                                .Encoded(false)
+                                                .Sanitized(false)
+                                                .SetWidth(30)
+                                                .RenderValueAs(o => Html.ActionLink("Edit", "Edit", new { id = o.Vender_ID }));
+
+
+                                                }).WithPaging(1).Sortable(true)
                         </div>
                     </div>
-                    <div class="table-responsive">
-                        <table id="Customertable" class="table">
-                        </table>
-                    </div>
                 </div>
+                <p>
+                    <a class="btn btn-success" href="@Url.Action("VendorPDF")">PDF</a>
+                </p>
             </div>
         </div>
     </div>

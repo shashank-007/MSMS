@@ -64,5 +64,14 @@ namespace MSMS.Areas.AdminLogin.Controllers
             bool status = objBal.AddStore(model);
             return Json(status, JsonRequestBehavior.AllowGet);
         }
+
+        public JsonResult NewEditOwner(OwnerViewModel model)
+        {
+            BAL objBal = new BAL();
+            string status = objBal.EditOwner(model);
+            return Json(status,JsonRequestBehavior.AllowGet);
+        }
+
+
     }
 }

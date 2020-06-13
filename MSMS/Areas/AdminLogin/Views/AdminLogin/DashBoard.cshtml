@@ -3,8 +3,115 @@
     ViewBag.Title = "DashBoard";
 }
 
-<h2>Dashboard</h2>
 
-<div>
-    <input type="submit" class="btn btn-danger" id="btnLogout" value="Logout" />
+<script src="~/Scripts/jquery-1.12.4.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        if (window.sessionStorage.getItem("AdminID" == null)) {
+            window.location.href = "/AdminLogin/AdminLogin/Login";
+        }
+        else {
+            var TotalCount = $("#total");
+            var TotalACount = $("#Activetotal");
+            var TotalICount = $("#InActivetotal");
+
+            function GetAdminData() {
+                $.ajax({
+                    type: "Get",
+                    url: "https://localhost:44339/api/AdminLogin/WebApiMADDashBoard/GetAdminsList",
+                    dataType: "json",
+                    success: function (data) {
+                        debugger;
+                        var Count = 0, ACount = 0, ICount = 0;
+                        $.each(data, function (index, item) {
+                            Count++;
+                            if (item.Status == 'Active') {
+                                ACount++;
+                            }
+                            else {
+                                ICount++;
+                            }
+                        });
+                        TotalCount.html(Count);
+                        TotalACount.html(ACount);
+                        TotalICount.html(ICount);
+                    },
+                    error: function (XHR) {
+                        alert("Error");
+                    }
+                });
+            }
+
+            GetAdminData();
+            window.setInterval(function () {
+                GetAdminData();
+            }, 8000);
+
+            $("#total").mouseover(function () {
+                $("#total").animate({ fontSize: '3em' }, "slow")
+            });
+            $("#total").mouseout(function () {
+                $("#total").animate({ fontSize: '1em' }, "slow")
+            });
+
+            $("#Activetotal").mouseover(function () {
+                $("#Activetotal").animate({ fontSize: '3em' }, "slow")
+            });
+            $("#Activetotal").mouseout(function () {
+                $("#Activetotal").animate({ fontSize: '1em' }, "slow")
+            });
+
+            $("#InActivetotal").mouseover(function () {
+                $("#InActivetotal").animate({ fontSize: '3em' }, "slow")
+            });
+            $("#InActivetotal").mouseout(function () {
+                $("#InActivetotal").animate({ fontSize: '1em' }, "slow")
+            });
+        }
+    });
+</script>
+<h2>Dashboard</h2>
+<div class="row">
+    <div class="col-md-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="panel-title" style="height:150px;">
+                    <div style="font-size:25px;border-bottom:1px solid #333;">Owners</div>
+                    <div class="row">
+                        <div class="col-md-6"><h3>Total</h3></div>
+                        <div class="col-md-6"><h3><span class="badge" style="font-size:1em;" id="total"></span></h3></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <div class="panel-title" style="height:150px;">
+                    <div style="font-size:25px;border-bottom:1px solid #333;">Owners</div>
+                    <div class="row">
+                        <div class="col-md-6"><h3>Active</h3></div>
+                        <div class="col-md-6"><h3><span class="badge" style="font-size:1em;" id="Activetotal"></span></h3></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="panel panel-danger">
+            <div class="panel-heading">
+                <div class="panel-title" style="height:150px;">
+                    <div style="font-size:25px;border-bottom:1px solid #333;">Owners</div>
+                    <div class="row">
+                        <div class="col-md-6"><h3>In Active</h3></div>
+                        <div class="col-md-6"><h3><span class="badge" style="font-size:1em;" id="InActivetotal"></span></h3></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>

@@ -152,6 +152,61 @@ namespace MSMS.BussinessAccess
             }
             return email;
         }
+
+        public string EditOwner(OwnerViewModel model)
+        {
+            var file = model.OwnerImageFile;
+            var file1 = model.ImagePAN;
+            var file2 = model.ImageAadhar;
+
+            byte[] ImageBytes = null;
+            byte[] PanBytes = null;
+            byte[] AadharBytes = null;
+
+            string email = null;
+            if (file != null)
+            {
+                //var fileName = Path.GetFileName(file.FileName);
+                //var fileExtension = Path.GetExtension(file.FileName);
+                //var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(file.FileName);
+
+                file.SaveAs(HttpContext.Current.Server.MapPath("/img/" + file.FileName));
+                file1.SaveAs(HttpContext.Current.Server.MapPath("/img/" + file1.FileName));
+                file2.SaveAs(HttpContext.Current.Server.MapPath("/img/" + file2.FileName));
+
+
+                BinaryReader reader = new BinaryReader(file.InputStream);
+                ImageBytes = reader.ReadBytes(file.ContentLength);
+
+                BinaryReader reader1 = new BinaryReader(file1.InputStream);
+                PanBytes = reader1.ReadBytes(file1.ContentLength);
+
+                BinaryReader reader2 = new BinaryReader(file2.InputStream);
+                AadharBytes = reader2.ReadBytes(file2.ContentLength);
+
+                Owner_Registration adm = new Owner_Registration();
+                adm.Owner_Email = model.Owner_Email;
+                adm.Name = model.Name;
+                adm.Age = model.Age;
+                adm.Gender = model.Gender;
+                adm.Password = model.Password;
+                adm.Phone = model.Phone;
+                adm.Pan_Number = PanBytes;
+                adm.Aadhar_Number = AadharBytes;
+                adm.Permanent_Address = model.Permanent_Address;
+                adm.Current_Address = model.Current_Address;
+                adm.Photo = ImageBytes;
+                adm.Status = model.Status;
+                if (IObjRep.EditOwner(adm) > 0)
+                {
+                    email = adm.Owner_Email;
+                }
+
+            }
+            return email;
+        }
+
+
         public Owner_Registration GetOwnerByID(string id)
         {
             return IObjRep.GetOwnerByID(id);
@@ -230,7 +285,11 @@ namespace MSMS.BussinessAccess
             }
             return flag;
         }
-
+        //2.10)This method is used to delete owner from database
+        public void DeleteOwner(string id)
+        {
+            IObjRep.DeleteOwner(id);
+        }
 
         public string Dashboard(String txtBody)
         {

@@ -123,6 +123,9 @@ namespace MSMS.Areas.Users.Controllers
             }
         }
 
+
+
+
         //[HttpGet]
         //[Route("api/Users/ApiUser/SearchCustomer")]
         //public HttpResponseMessage SearchCustomer(int CustId, string CStatus, int Percent)

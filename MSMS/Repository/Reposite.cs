@@ -104,8 +104,7 @@ namespace MSMS.Repository
             using (MSMSDBEntities db = new MSMSDBEntities())
             {
                 db.Owner_Registration.Add(adm);
-                i += db.SaveChanges();
-              
+                i += db.SaveChanges();  
             }
             return i;
         }
@@ -177,7 +176,7 @@ namespace MSMS.Repository
         }
         //2.8)This method is used to find the stores of owner by ownerID
         public List<Store_Registration> GetStoreByOwner(string OwnerId)
-        {  
+        {
             using (MSMSDBEntities db=new MSMSDBEntities())
             {
                 List<Store_Registration> adm = db.Store_Registration.Where(m=>m.Owner_Email== OwnerId).ToList();
@@ -194,6 +193,29 @@ namespace MSMS.Repository
                 owner.Password = pwd;
                 db.Owner_Registration.Attach(owner);
                 db.Entry(owner).Property(a => a.Password).IsModified = true;
+                i += db.SaveChanges();
+            }
+            return i;
+        }
+
+        //2.10)This method is used to delete owner from database
+        public void DeleteOwner(string id)
+        {
+            using (MSMSDBEntities db=new MSMSDBEntities())
+            {
+                var a = db.Owner_Registration.Find(id);
+                db.Owner_Registration.Remove(a);
+                db.SaveChanges();
+            }
+        }
+
+        //2.11)This method is used to edit owner in database
+        public int EditOwner(Owner_Registration adm)
+        {
+            int i = 0;
+            using (MSMSDBEntities db = new MSMSDBEntities())
+            {
+                db.Entry(adm).State = EntityState.Modified;
                 i += db.SaveChanges();
             }
             return i;

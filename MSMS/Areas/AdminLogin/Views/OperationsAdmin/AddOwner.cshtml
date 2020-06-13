@@ -4,14 +4,12 @@
     Layout = "~/Areas/AdminLogin/Views/Shared/_OperationalAdminLayout.cshtml";
 }
 
-<h2>AddOwner</h2>
+
 <script src="~/Scripts/jquery-1.12.4.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
-        if (window.sessionStorage.getItem("AdminID" == null)) {
-            window.location = "Login";
-        }
-        else {
+
+        //login script was written in layout page
             var Register = $("#btnRegister");
                 var EmailId = $("#txtEmailId");
                 var Name = $("#txtName");
@@ -177,8 +175,6 @@
                 });
                
             });
-
-        }
     });
 </script>
 

@@ -1,4 +1,6 @@
-﻿
+﻿@model IEnumerable<MSMS.Models.Customer_Details>
+
+@using GridMvc.Html
 @{
     ViewBag.Title = "Customer";
     Layout = "~/Areas/Users/Views/Shared/_LayoutPage1.cshtml";
@@ -7,8 +9,8 @@
 <script src="~/Scripts/jquery-1.12.4.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
-        var Customertable = $("#Customertable");
-        $("#tabs").tab()
+        
+        $("#tabs").tab;
 
         $("#btnAdd").click(function () {
             var Id = $("#txtID");
@@ -43,7 +45,7 @@
                 }
             });
         });
-        $.ajax({
+        @*$.ajax({
             type: "Get",
             url: "https://localhost:44339/api/Users/ApiUser/GetCustomersList",
             dataType: "json",
@@ -58,8 +60,8 @@
                 var responseData = JSON.parse(XHR.responseText);
                 alert(XHR.status + " : " + responseData.Message);
             }
-        });
-         Show.click(function () {
+        });*@
+         @*Show.click(function () {
                 debugger;
                 var CustId = $("#txtCustomerId");
                 var CStatus = $("#txtStatus");
@@ -96,7 +98,7 @@
                         alert(XHR.status + " : " + responseData.Message);
                     }
                 });
-            });
+         });*@
     });
 
 </script>
@@ -168,27 +170,33 @@
                 </div>
 
                 <div id="ManageCustomer" class="tab-pane fade">
-                    <div class="panel" style="margin-top:10px">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <input type="text" id="txtCustomerId" class="form-control" placeholder="Store Email" />
-                            </div>
-                            <div class="col-md-3">
-                                <input type="text" id="txtStatus" class="form-control" placeholder="Status " />
-                            </div>
-                            <div class="col-md-3">
-                                <input type="text" id="txtPercent" class="form-control" placeholder="Percentage" />
-                            </div>
-                            <div class="col-md-3">
-                                <input type="submit" id="btnShow" value="Show" class="btn btn-primary" />
-                            </div>
+                    <div style="margin-top:20px;">
+                        <div class="code-cut">
+                            @Html.Grid(Model).Columns(columns =>
+                                            {
+                                                columns.Add(c => c.Customer_ID).Titled("Customer_ID").Filterable(true);
+                                                columns.Add(c => c.Customer_Name).Titled("Customer Name").Filterable(true);
+                                                columns.Add(c => c.Phone_No).Titled("Phone_No").Filterable(true);
+                                                columns.Add(c => c.Email).Titled("Email").Filterable(true);
+                                                columns.Add(c => c.City).Titled("City").Filterable(true);
+                                                columns.Add(c => c.Status).Titled("Status").Filterable(true);
+                                                columns.Add(c => c.Percentage).Titled("Percentage").Filterable(true);
+
+
+                                                columns.Add().Titled("Edit")
+                                                .Encoded(false)
+                                                .Sanitized(false)
+                                                .SetWidth(30)
+                                                .RenderValueAs(o => Html.ActionLink("Edit", "Edit", new { id = o.Customer_ID }));
+
+
+                                                }).WithPaging(2).Sortable(true)
                         </div>
                     </div>
-                    <div class="table-responsive">
-                        <table id="Customertable" class="table">
-                        </table>
-                    </div>
                 </div>
+                <p>
+                    <a class="btn btn-success" href="@Url.Action("CustomerPDF")">PDF</a>
+                </p>
             </div>
         </div>
     </div>

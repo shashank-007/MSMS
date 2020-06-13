@@ -36,6 +36,20 @@ namespace MSMS.Areas.AdminLogin.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("api/AdminLogin/WebApiOA/DeleteOwner/{id}")]
+        public HttpResponseMessage DeleteOwner(string id)
+        {
+            try
+            {
+                objBal.DeleteOwner(id);
+                return Request.CreateResponse(HttpStatusCode.OK,id);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest,ex.Message);
+            }
+        }
         //[HttpPost]
         //[Route("api/AdminLogin/WebApiOA/AddOwner")]
         //public HttpResponseMessage AddOwner(Owner_Registration admin)
@@ -139,7 +153,8 @@ namespace MSMS.Areas.AdminLogin.Controllers
             {
                 if (Email!="store"&&Status!= "store"&& Percent != 0)
                 {
-                    return Request.CreateResponse(HttpStatusCode.OK, (from x in objBal.GetStoreList() where x.StoreEmail == Email && x.Status == Status && x.Percentage == Percent select x).ToList());
+                    IEnumerable<Store_Registration> Stores=(from x in objBal.GetStoreList() where x.StoreEmail == Email && x.Status == Status && x.Percentage == Percent select x).ToList();
+                    return Request.CreateResponse(HttpStatusCode.OK, Stores);
                 }
                 else if (Email!= "store"&&Status!= "store"&&Percent==0)
                 {

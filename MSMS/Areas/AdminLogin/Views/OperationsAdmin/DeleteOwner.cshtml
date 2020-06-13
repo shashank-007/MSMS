@@ -1,20 +1,18 @@
 ﻿
 @{
     ViewBag.Title = "DeleteOwner";
-    Layout = "~/Areas/OwnerProfile/Views/Shared/_LayoutPage1.cshtml";
+    Layout = "~/Areas/AdminLogin/Views/Shared/_OperationalAdminLayout.cshtml";
 }
-
 
 <script src="~/Scripts/jquery-1.12.4.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
-        if (window.sessionStorage.getItem("AdminID") == null) {
-            window.location.href = "/AdminLogin/AdminLogin/Login";
-        }
-        else {
+    
+        //login script was written in layout page
             var Email = $("#txtEmailId");
             var Name = $("#txtName");
-            var Password = $("txtPwd");
+            var Password = $("#txtPwd");
+            var Photo = $("#txtPhoto");
             var Age = $("#txtAge");
             var Gender = $("#txtGender");
             var Phone = $("#txtPhone");
@@ -26,17 +24,18 @@
 
             $.ajax({
                 type: "get",
-                url: "https://localhost:44339/api/AdminLogin/WebApiOA/GetOwnerID/"+ window.sessionStorage.getItem("AdminID"),
+                url: "https://localhost:44339/api/AdminLogin/WebApiOA/GetOwnerByID/"+ window.sessionStorage.getItem("OEmail"),
                 dataType: "json",
                 success: function (data) {
                     Email.text(data.Owner_Email);
                     Name.text(data.Name);
                     Password.text(data.Password);
+                    Photo.attr("src", "data:image/jpg;base64," + data.Photo);
                     Age.text(data.Age);
                     Gender.text(data.Gender);
                     Phone.text(data.Phone);
-                    PanNum.text(data.Pan_Number);
-                    Aadharno.text(data.Aadhar_Number);
+                    PanNum.attr("src", "data:image/jpg;base64," + data.Pan_Number);
+                    Aadharno.attr("src", "data:image/jpg;base64," + data.Aadhar_Number);
                     PAddress.text(data.Permanent_Address);
                     CAddress.text(data.Current_Address);
                     Status.text(data.Status);
@@ -45,12 +44,26 @@
                     alert('error');
                 }
             });
-        }
+
+        $("#btnDelete").click(function () {
+            $.ajax({
+                type: "get",
+                url: "https://localhost:44339/api/AdminLogin/WebApiOA/DeleteOwner/"+ window.sessionStorage.getItem("OEmail"),
+                dataType: "json",
+                success: function (data) {
+                    alert("Record " + window.sessionStorage.getItem("OEmail") + " Successfully Deleted..!");
+                    window.location.href = "/AdminLogin/OperationsAdmin/ManageOwner";
+                },
+                error: function (XHR) {
+                    alert("Error");
+                }
+            });
+
+        });
 
     });
 </script>
 
-<h2>DeleteOwner</h2>
 <div class="row" style="margin-top:50px;">
     <div class="col-sm-12">
         <div class="row" style="text-align:center;color:red;margin-bottom:20px;">
@@ -78,6 +91,12 @@
         </div>
         <div class="row">
             <div class="col-md-2"></div>
+            <div class="col-md-4"><h4 style="">Photo</h4></div>
+            <div class="col-md-4"><h4><img src="#" id="txtPhoto" /></h4></div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
             <div class="col-md-4"><h4 style="">Age </h4></div>
             <div class="col-md-4"><h4><span id="txtAge"></span></h4></div>
             <div class="col-md-2"></div>
@@ -97,13 +116,13 @@
         <div class="row">
             <div class="col-md-2"></div>
             <div class="col-md-4"><h4 style="">Pan Number</h4></div>
-            <div class="col-md-4"><h4><span id="txtPan"></span></h4></div>
+            <div class="col-md-4"><h4><img src="#" id="txtPan" /></h4></div>
             <div class="col-md-2"></div>
         </div>
         <div class="row">
             <div class="col-md-2"></div>
             <div class="col-md-4"><h4 style="">Aadhar Number</h4></div>
-            <div class="col-md-4"><h4><span id="txtAadhar"></span></h4></div>
+            <div class="col-md-4"><h4><img src="#" id="txtAadhar" /></h4></div>
             <div class="col-md-2"></div>
         </div>
         <div class="row">
@@ -123,6 +142,11 @@
             <div class="col-md-4"><h4 style="">Status</h4></div>
             <div class="col-md-4"><h4><span id="txtStatus"></span></h4></div>
             <div class="col-md-2"></div>
+        </div><br>
+        <div class="row">
+            <div class="col-md-6"></div>
+            <div class="col-md-6"><h4><input type="submit" id="btnDelete" class="btn btn-danger" value="Delete"></h4></div>
         </div>
     </div>
 </div>
+

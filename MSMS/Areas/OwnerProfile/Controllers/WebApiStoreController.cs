@@ -34,6 +34,26 @@ namespace MSMS.Areas.OwnerProfile.Controllers
             }
         }
 
+        public HttpResponseMessage GetStoreByID(string id)
+        {
+            try
+            {
+                var store = objBal.GetStoreByID(id);
+                if (store == null)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Store Not Found");
+                }
+                else
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK, store);
+                }
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
+            }
+        }
+
         [HttpGet]
         [Route("api/OwnerProfile/WebApiStore/Dashboard")]
         public HttpResponseMessage Dashboard(String txtEmail)
