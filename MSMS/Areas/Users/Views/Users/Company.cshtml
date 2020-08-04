@@ -1,0 +1,101 @@
+﻿@model IEnumerable<MSMS.Models.Pharma_Company_Details>
+
+@using GridMvc.Html
+@{
+    ViewBag.Title = "Company";
+    Layout = "~/Areas/Users/Views/Shared/_LayoutPage1.cshtml";
+}
+
+
+<script src="~/Scripts/jquery-1.12.4.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () { 
+        $("#tabs").tab()
+        
+        $("#btnAdd").click(function () {
+            var Id = $("#txtID");
+            var Name = $("#txtName");  
+
+            var CustObj = {
+                "Company_Id": Id.val(),
+                "Company_Name": Name.val(),
+                
+            }
+            $.ajax({
+                type: "post",
+                url: "https://localhost:44339/api/Users/ApiUser/AddCompany",
+                dataType: "json",
+                data: JSON.stringify(CustObj),
+                contentType: "application/json",
+                success: function (data) {
+                    alert("Record " + data.Company_Id + " Was Created Successfully...!");
+                },
+                error: function (XHR) {
+                    var responseData = JSON.parse(XHR.responseText);
+                    alert(XHR.status + " : " + responseData.Message);
+                }
+            });
+        });
+    });
+</script>
+<h2>Company</h2>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <ul class="nav nav-tabs nav-justified">
+                <li class="active" style="font-display:inherit">
+                    <a href="#AddCompany" data-toggle="tab">Add Customer</a>
+                </li>
+                <li>
+                    <a href="#ManageCompany" data-toggle="tab">Manage Customer</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div id="AddCompany" class="tab-pane fade in active">
+                    <div class="row" style="margin-top:50px;">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-4" style="font-weight:bold">Company Id</div>
+                        <div class="col-md-4"><input type="text" id="txtID" name="txtID" class="form-control" placeholder="Enter Company Id"></div>
+                        <div class="col-md-2"></div>
+                    </div>
+                    <div class="row" style="margin-top:20px;">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-4" style="font-weight:bold">Company Name</div>
+                        <div class="col-md-4"><input type="text" id="txtName" name="txtName" class="form-control" placeholder="Enter Company Name"></div>
+                        <div class="col-md-2"></div>
+                    </div>
+
+                    <div class="row" style="margin-top:20px;">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4"><input type="submit" id="btnAdd" name="btnAdd" class="btn btn-info" value="Add"></div>
+                        <div class="col-md-2"></div>
+                    </div>
+                </div>
+                <div id="ManageCompany" class="tab-pane fade">
+                    <div style="margin-top:20px;">
+                        <div class="code-cut">
+                            @Html.Grid(Model).Columns(columns =>
+                                            {
+                                                columns.Add(c => c.Company_Id).Titled("Customer_ID").Filterable(true);
+                                                columns.Add(c => c.Company_Name).Titled("Customer Name").Filterable(true);
+
+                                                columns.Add().Titled("Edit")
+                                                .Encoded(false)
+                                                .Sanitized(false)
+                                                .SetWidth(30)
+                                                .RenderValueAs(o => Html.ActionLink("Edit", "Edit", new { id = o.Company_Id }));
+
+
+                                                }).WithPaging(1).Sortable(true)
+                        </div>
+                    </div>
+                </div>
+                <p>
+                    <a class="btn btn-success" href="@Url.Action("CompanyPDF")">PDF</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+

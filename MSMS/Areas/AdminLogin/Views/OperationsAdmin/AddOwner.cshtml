@@ -1,0 +1,336 @@
+﻿
+@{
+    ViewBag.Title = "AddOwner";
+    Layout = "~/Areas/AdminLogin/Views/Shared/_OperationalAdminLayout.cshtml";
+}
+
+
+<script src="~/Scripts/jquery-1.12.4.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        //login script was written in layout page
+            var Register = $("#btnRegister");
+                var EmailId = $("#txtEmailId");
+                var Name = $("#txtName");
+                var Password = $("#txtPwd");
+                var Photo = $("#image");
+                var Pan = $("#Panimage");
+                var Aadhar = $("#Aadharimage");
+                var Age = $("#txtAge");
+                var Gender = $("input[name='Gender']:checked").length;
+                var Phone = $("#txtPhone");
+                var PAddress = $("#txtPAddress");
+                var CAddress = $("#txtCAddress");
+                var Status = $("input[name='Status']:checked").length;
+
+            Photo.change(function () {
+                var File = this.files;
+                if (File && File[0]) {
+                    ReadImage(File[0]);
+                }
+            });
+            Pan.change(function () {
+                var File = this.files;
+                if (File && File[0]) {
+                    ReadImage(File[0]);
+                }
+            });
+            Aadhar.change(function () {
+                var File = this.files;
+                if (File && File[0]) {
+                    ReadImage(File[0]);
+                }
+            });
+
+            var ReadImage = function (file) {
+                var reader = new FileReader;
+                var image = new Image;
+
+                reader.readAsDataURL(file);
+                reader.onload = function (_file) {
+
+                    image.src = _file.target.result;
+                    image.onload = function () {
+
+                        var height = this.height;
+                        var width = this.width;
+                        var type = file.type;
+                        var size = ~~(file.size / 1024) + "KB";
+
+                        $("#targetImg").attr("src", _file.target.result);
+                        $("#description").text("Size:" + size + ", " + height + "X " + width + "");
+                        $("#imagePreview").show();
+                    }
+                }
+            }
+
+            var ClearPreview = function () {
+
+                Photo.val('');
+                $("#description").text('');
+                $("#imagePreview").hide();
+            }
+
+            Register.click(function () {
+
+                debugger;
+                //if (AdminType.val() == "") {
+                //    alert("Please Enter Employee Name...!");
+                //    return false;
+                //}
+
+                //if (Name.val() == "") {
+                //    alert("Please Enter Employee Name...!");
+                //    return false;
+                //} else if (!isNaN(Name.val())) {
+                //    alert("Please Enter Charectors only...!");
+                //    return false;
+                //}
+
+                //if (Password.val() == null) {
+                //    alert("Please Enter Password...!");
+                //    return false;
+                //}
+
+                //if (Age.val() == "") {
+                //    alert("Please Enter Employee Name...!");
+                //    return false;
+                //}
+
+                //if (Gender == 0) {
+                //    alert("Please Select Gender...!");
+                //    return false;
+                //}
+
+                //if (Phone.val() == null) {
+                //    alert("Please Enter Phone number...!");
+                //    return false;
+                //}
+
+                //if (PanNum == "") {
+                //    alert("Please Select PanNumber...!");
+                //    return false;
+                //}
+
+                //if (Aadharno == "") {
+                //    alert("Please Select AadharNo...!");
+                //    return false;
+                //}
+
+                //if (PAddress.val() == null) {
+                //    alert("Please Enter Address...!");
+                //    return false;
+                //}
+
+                //if (CAddress.val() == null) {
+                //    alert("Please Enter Address...!");
+                //    return false;
+                //}
+
+                //if (Status == 0) {
+                //    alert("Please Select Status...!");
+                //    return false;
+                //}
+                var file = Photo.get(0).files;
+                var file1 = Pan.get(0).files;
+                var file2 = Aadhar.get(0).files;
+
+                var data = new FormData(); 
+                data.append("Owner_Email", EmailId.val());
+                data.append("Name", Name.val());
+                data.append("Password", Password.val());
+                data.append("OwnerImageFile", file[0]);
+                data.append("Age", Age.val());
+                data.append("Gender", $("input[name='Gender']:checked").val());
+                data.append("Phone", Phone.val());
+                data.append("ImagePAN", file1[0]);
+                data.append("ImageAadhar", file2[0]);
+                data.append("Permanent_Address", PAddress.val());
+                data.append("Current_Address", CAddress.val());
+                data.append("Status", $("input[name='Status']:checked").val());
+                
+                debugger;
+                $.ajax({
+                    type: "post",
+                    url: "https://localhost:44339/AdminLogin/OperationsAdmin/NewOwner",
+                    data: data,
+                    contentType: false,
+                    processData: false,
+                    success: function (status) {
+                        if (status) {
+                            alert("Record Was Created Successfully...!");
+                            window.sessionStorage.setItem("Email", EmailId.val());   
+                            window.location = "AddStore";
+                        }
+                        else {
+                            alert("Something Went Wrong...!");
+                        }
+                    },
+                    error: function (XHR) {
+                        var responseData = JSON.parse(XHR.responseText);
+                        alert(XHR.status + ":" + responseData.Message);
+                    }
+
+                });
+               
+            });
+    });
+</script>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="row" style="text-align:center;color:red;margin-bottom:20px;">
+            <div class="col-sm-12">
+                <h2>Add Owner</h2>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom:15px;">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-4" style="font-weight:bold">Email Id</div>
+            <div class="col-sm-4">
+                <input type="text" id="txtEmailId" name="txtAdminId" class="form-control" placeholder="Enter AdminId" />
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+        <div class="row" style="margin-bottom:15px;">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-4" style="font-weight:bold">Name</div>
+            <div class="col-sm-4">
+                <input type="text" id="txtName" name="txtName" class="form-control" placeholder="Enter Admin Name" />
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+        <div class="row" style="margin-bottom:15px;">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-4" style="font-weight:bold">Password</div>
+            <div class="col-sm-4">
+                <input type="password" id="txtPwd" name="txtPwd" class="form-control" placeholder="Enter Password" />
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+        <div class="row" style="margin-bottom:10px">
+            <div class="col-md-2"> </div>
+            <div class="col-md-4">Photo</div>
+            <div class="col-md-4">
+                <input type="file" id="image" />
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div id="imagePreview" class="thumbnail" style="display:none;">
+                            <img class="img-responsive" id="targetImg" />
+                            <div class="caption">
+                                <a href="#" onclick="ClearPreview();"><i class="glyphicon glyphicon-trash"></i></a>
+                                <p id="description"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2"> </div>
+        </div>
+        <div class="row" style="margin-bottom:15px;">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-4" style="font-weight:bold">Age</div>
+            <div class="col-sm-4">
+                <input type="text" id="txtAge" name="txtAge" class="form-control" placeholder="Enter Age" />
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+        <div class="row" style="margin-bottom:15px;">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-4" style="font-weight:bold">Gender</div>
+            <div class="col-sm-4">
+                <input type="radio" id="rbtnMale" name="Gender" value="Male" />Male
+                <input type="radio" id="rbtnFemale" name="Gender" value="Female" />Female
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+        <div class="row" style="margin-bottom:15px;">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-4" style="font-weight:bold">Phone</div>
+            <div class="col-sm-4">
+                <input type="text" id="txtPhone" name="txtPhone" class="form-control" placeholder="Enter Phone Number" />
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+        <div class="row" style="margin-bottom:10px">
+            <div class="col-md-2"> </div>
+            <div class="col-md-4">Pan Card</div>
+            <div class="col-md-4">
+                <input type="file" id="Panimage" />
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div id="imagePreview" class="thumbnail" style="display:none;">
+                            <img class="img-responsive" id="targetImg" />
+                            <div class="caption">
+                                <a href="#" onclick="ClearPreview();"><i class="glyphicon glyphicon-trash"></i></a>
+                                <p id="description"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2"> </div>
+        </div>
+        <div class="row" style="margin-bottom:10px">
+            <div class="col-md-2"> </div>
+            <div class="col-md-4">Aadhar Card</div>
+            <div class="col-md-4">
+                <input type="file" id="Aadharimage" />
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div id="imagePreview" class="thumbnail" style="display:none;">
+                            <img class="img-responsive" id="targetImg" />
+                            <div class="caption">
+                                <a href="#" onclick="ClearPreview();"><i class="glyphicon glyphicon-trash"></i></a>
+                                <p id="description"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2"> </div>
+        </div>
+        <div class="row" style="margin-bottom:15px;">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-4" style="font-weight:bold">Permanent Address</div>
+            <div class="col-sm-4">
+                <textarea id="txtPAddress" name="txtPAddress" class="form-control" placeholder="Enter Permanent Address" rows="5"></textarea>
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+        <div class="row" style="margin-bottom:15px;">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-4" style="font-weight:bold">Current Address</div>
+            <div class="col-sm-4">
+                <textarea id="txtCAddress" name="txtCAddress" class="form-control" placeholder="Enter Current Address" rows="5"></textarea>
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+        <div class="row" style="margin-bottom:15px;">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-4" style="font-weight:bold">Status</div>
+            <div class="col-sm-4">
+                <input type="radio" id="rbtnAct" name="Status" value="Active" />Active
+                <input type="radio" id="rbtnInact" name="Status" value="InActive" />InActive
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+        <div class="row" style="margin-top:60px;text-align:center;">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-4" style="margin-top:2px;">
+                <input type="submit" id="btnRegister" name="Register" value="Register" class="btn btn-primary" />
+            </div>
+            <div class="col-sm-4">
+                <input type="submit" id="btnCancel" name="Register" value="Cancel" class="btn btn-danger" />
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+        <div class="row" style="margin-bottom:15px;">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-3" style="font-weight:bold"></div>
+            <div class="col-sm-3"></div>
+            <div class="col-sm-3"></div>
+        </div>
+    </div>
+</div>

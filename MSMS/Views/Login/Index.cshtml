@@ -1,0 +1,66 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+
+
+<script src="~/Scripts/jquery-1.12.4.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#txtUser").change(function () {
+            $.ajax({
+                type: "Get",
+                url:"https://localhost:44339/api/AdminLogin/WebApiOA/GetOwnerByID/"+$("#txtUser").val(),
+                dataType: "json",
+                success: function (data) {
+                    alert(data.Owner_Email);
+                    $("#btnLogin").show();
+                },
+                error: function (XHR) {
+                    alert("Error");
+                    $("#btnLogin").hide();
+                }
+            });
+        });
+        $("#btnLogin").click(function () {
+            $.ajax({
+                type: "Get",
+                url: "https://localhost:44339/api/AdminLogin/WebApiOA/CheckOwnerLogin?UserName="+$("#txtUser").val()+"&Password="+$("#txtPassword").val(),
+                dataType: "json",
+                success: function (data) {
+                    if (data.Status == "Active") {
+                        window.sessionStorage.setItem("OwnerID", $("#txtUser").val());
+                        window.location.href = "/Dropdown/Dropdown";
+                        //window.location.href = "/OwnerProfile/Profile/Dashboard";
+                    }
+                    else 
+                    {
+                        alert("Please Activate your Account...!");
+                    }
+                },
+                error:function(XHR) {
+                    alert("Error");
+                }
+            });
+        });
+    });
+</script>
+<h1>Login To Continue</h1>
+
+<div>
+    <label>
+        <input type="text" id="txtUser" placeholder=" Enter UserName">
+        <span>UserName</span>
+    </label>
+
+    <label>
+        <input type="password" id="txtPassword" placeholder="Enter Password">
+        <span>Password</span>
+    </label>
+
+    <a>Forget Password?</a><br><br>
+
+    <input type="submit" id="btnLogin" value="LOGIN">
+</div>
+

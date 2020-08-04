@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MSMS", "MSMS\MSMS.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MSMS.Tests", "MSMS.Tests\MSMS.Tests.csproj", "{60D772C0-0420-42DF-8344-BA28DFD3AD05}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{737D1044-8442-456A-BA8E-FD0F722A17C3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{60D772C0-0420-42DF-8344-BA28DFD3AD05}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{60D772C0-0420-42DF-8344-BA28DFD3AD05}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{60D772C0-0420-42DF-8344-BA28DFD3AD05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{737D1044-8442-456A-BA8E-FD0F722A17C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{737D1044-8442-456A-BA8E-FD0F722A17C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{737D1044-8442-456A-BA8E-FD0F722A17C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{737D1044-8442-456A-BA8E-FD0F722A17C3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

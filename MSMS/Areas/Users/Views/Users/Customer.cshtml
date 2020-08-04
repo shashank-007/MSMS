@@ -1,0 +1,203 @@
+﻿@model IEnumerable<MSMS.Models.Customer_Details>
+
+@using GridMvc.Html
+@{
+    ViewBag.Title = "Customer";
+    Layout = "~/Areas/Users/Views/Shared/_LayoutPage1.cshtml";
+}
+
+<script src="~/Scripts/jquery-1.12.4.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        
+        $("#tabs").tab;
+
+        $("#btnAdd").click(function () {
+            var Id = $("#txtID");
+            var Name = $("#txtName");
+            var City = $("#txtCity");
+            var Phone = $("#txtPhone");
+            var Email = $("#txtEmail");
+            var Status = $("input[name='Status']:checked").length;
+            var Percentage = $("#txtPercentage");
+
+            var CustObj = {
+                "Customer_ID": Id.val(),
+                "Customer_Name": Name.val(),
+                "City": City.val(),
+                "Phone_No": Phone.val(),
+                "Email": Email.val(),
+                "Status": $("input[name='Status']:checked").val(),
+                "Percentage": Percentage.val()
+            }
+            $.ajax({
+                type: "post",
+                url: "https://localhost:44339/api/Users/ApiUser/AddCustomer",
+                dataType: "json",
+                data: JSON.stringify(CustObj),
+                contentType: "application/json",
+                success: function (data) {
+                    alert("Record " + data.Customer_ID + " Was Created Successfully...!");
+                },
+                error: function (XHR) {
+                    var responseData = JSON.parse(XHR.responseText);
+                    alert(XHR.status + " : " + responseData.Message);
+                }
+            });
+        });
+        @*$.ajax({
+            type: "Get",
+            url: "https://localhost:44339/api/Users/ApiUser/GetCustomersList",
+            dataType: "json",
+            success: function (data) {
+                Customertable.empty();
+                Customertable.append("<tr><th>Customer Id</th><th>Customer Name</th><th>City</th><th>Phone</th><th>Email</th><th>Status</th><th>Percentage</th><th>Operations</th></tr>");
+                $.each(data,function (index, item) {
+                    Customertable.append("<tr><td>"+item.Customer_ID+"</td><td>"+item.Customer_Name+"</td><td>"+item.City+"</td><td>"+item.Phone_No+"</td><td>"+item.Email+"</td><td>"+item.Status+"</td><td>"+item.Percentage+"</td><td><a href=@Url.Action("EditCustomer","Users")>Edit</a></td><td><a href=@Url.Action("DeleteCustomer","Users")>Delete</a></td></tr>");
+                });
+            },
+            error(XHR) {
+                var responseData = JSON.parse(XHR.responseText);
+                alert(XHR.status + " : " + responseData.Message);
+            }
+        });*@
+         @*Show.click(function () {
+                debugger;
+                var CustId = $("#txtCustomerId");
+                var CStatus = $("#txtStatus");
+                var Percent = $("#txtPercent");
+
+                if (CustId.val() == "") {
+                    CustId.val("store");
+                }
+
+                if (CStatus.val() == "") {
+                    CStatus.val("store");
+                }
+
+                if (Percent.val() == 0) {
+                    Percent.val(0);
+                }
+
+                $.ajax({
+                    type: "Get",
+                    url: "https://localhost:44339/api/Users/ApiUser/SearchCustomer?CustId=" + CustId.val() + "&Status=" + CStatus.val() + "&Percentage=" + Percent.val(),
+                    dataType: "Json",
+                    success: function (data) {
+                        Customertable.empty();
+                        Customertable.append("<tr><th>Customer Id</th><th>Customer Name</th><th>City</th><th>Phone</th><th>Email</th><th>Status</th><th>Percentage</th><th>Operations</th></tr>");
+                        $.each(data,function (index, item) {
+                            Customertable.append("<tr><td>"+item.Customer_ID+"</td><td>"+item.Customer_Name+"</td><td>"+item.City+"</td><td>"+item.Phone_No+"</td><td>"+item.Email+"</td><td>"+item.Status+"</td><td>"+item.Percentage+"</td><td><a href=@Url.Action("EditCustomer","Users")>Edit</a></td><td><a href=@Url.Action("DeleteCustomer","Users")>Delete</a></td></tr>");
+                        });
+                        CustId.val("");
+                        CStatus.val("");
+                        Percent.val("");
+                    },
+                    error: function (XHR) {
+                        var responseData = JSON.parse(XHR.responseText);
+                        alert(XHR.status + " : " + responseData.Message);
+                    }
+                });
+         });*@
+    });
+
+</script>
+<h2>Customer</h2>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <ul class="nav nav-tabs nav-justified">
+                <li class="active" style="font-display:inherit">
+                    <a href="#AddCustomer" data-toggle="tab">Add Customer</a>
+                </li>
+                <li>
+                    <a href="#ManageCustomer" data-toggle="tab">Manage Customer</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div id="AddCustomer" class="tab-pane fade in active">
+                    <div class="row" style="margin-top:20px;">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-4" style="font-weight:bold">Customer Id</div>
+                        <div class="col-md-4"><input type="text" id="txtID" name="txtID" class="form-control" placeholder="Enter Customer Id"></div>
+                        <div class="col-md-2"></div>
+                    </div>
+                    <div class="row" style="margin-top:20px;">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-4" style="font-weight:bold">Customer Name</div>
+                        <div class="col-md-4"><input type="text" id="txtName" name="txtName" class="form-control" placeholder="Enter Customer Name"></div>
+                        <div class="col-md-2"></div>
+                    </div>
+                    <div class="row" style="margin-top:20px;">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-4" style="font-weight:bold">City</div>
+                        <div class="col-md-4"><input type="text" id="txtCity" name="txtCity" class="form-control" placeholder="Enter City"></div>
+                        <div class="col-md-2"></div>
+                    </div>
+                    <div class="row" style="margin-top:20px;">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-4" style="font-weight:bold">Phone Number</div>
+                        <div class="col-md-4"><input type="text" id="txtPhone" name="txtPhone" class="form-control" placeholder="Enter Phone Number"></div>
+                        <div class="col-md-2"></div>
+                    </div>
+                    <div class="row" style="margin-top:20px;">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-4" style="font-weight:bold">Email</div>
+                        <div class="col-md-4"><input type="text" id="txtEmail" name="txtEmail" class="form-control" placeholder="Enter Email"></div>
+                        <div class="col-md-2"></div>
+                    </div>
+                    <div class="row" style="margin-top:20px;">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-4" style="font-weight:bold">Status</div>
+                        <div class="col-md-4">
+                            <input type="radio" id="rbtnAct" name="Status" value="Active" />Active
+                            <input type="radio" id="rbtnInact" name="Status" value="InActive" />InActive
+                        </div>
+                        <div class="col-md-2"></div>
+                    </div>
+                    <div class="row" style="margin-top:20px;">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-4" style="font-weight:bold">Percentage</div>
+                        <div class="col-md-4"><input type="text" id="txtPercentage" name="txtPercentage" class="form-control" placeholder="Enter Percentage"></div>
+                        <div class="col-md-2"></div>
+                    </div>
+                    <div class="row" style="margin-top:20px;">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4"><input type="submit" id="btnAdd" value="Add" class="btn btn-info"></div>
+                        <div class="col-md-2"></div>
+                    </div>
+                </div>
+
+                <div id="ManageCustomer" class="tab-pane fade">
+                    <div style="margin-top:20px;">
+                        <div class="code-cut">
+                            @Html.Grid(Model).Columns(columns =>
+                                            {
+                                                columns.Add(c => c.Customer_ID).Titled("Customer_ID").Filterable(true);
+                                                columns.Add(c => c.Customer_Name).Titled("Customer Name").Filterable(true);
+                                                columns.Add(c => c.Phone_No).Titled("Phone_No").Filterable(true);
+                                                columns.Add(c => c.Email).Titled("Email").Filterable(true);
+                                                columns.Add(c => c.City).Titled("City").Filterable(true);
+                                                columns.Add(c => c.Status).Titled("Status").Filterable(true);
+                                                columns.Add(c => c.Percentage).Titled("Percentage").Filterable(true);
+
+
+                                                columns.Add().Titled("Edit")
+                                                .Encoded(false)
+                                                .Sanitized(false)
+                                                .SetWidth(30)
+                                                .RenderValueAs(o => Html.ActionLink("Edit", "Edit", new { id = o.Customer_ID }));
+
+
+                                                }).WithPaging(2).Sortable(true)
+                        </div>
+                    </div>
+                </div>
+                <p>
+                    <a class="btn btn-success" href="@Url.Action("CustomerPDF")">PDF</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

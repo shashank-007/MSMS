@@ -1,0 +1,177 @@
+﻿
+@{
+    ViewBag.Title = "MADelete";
+    Layout = "~/Areas/AdminLogin/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/jquery-1.12.4.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        if (window.sessionStorage.getItem("AdminID" == null)) {
+            window.location = "Login";
+        }
+        else {
+            
+            var ddlAdmId = $("#ddlAdmId");
+            var Name = $("#txtName");
+            var Age = $("#txtAge");
+            var Gender = $("#txtGender");
+            var Phone = $("#txtPhone");
+            var PanNum = $("#txtPan");
+            var Aadharno = $("#txtAadhar");
+            var PAddress = $("#txtPAddress");
+            var CAddress = $("#txtCAddress");
+            var Photo = $("#txtPhoto");
+            var Status = $("#txtStatus");
+            var Ref = $("#txtRef");
+
+           
+                //var pageURL = $(location).attr("href");
+                //var len = pageURL.length;
+                //var slen = pageURL.slice(len-7,len);
+                //alert(slen);
+           
+                $.ajax({
+                    type: "get",
+                    url: "https://localhost:44339/api/AdminLogin/WebApiMADDashBoard/GetAdminByID/" + window.sessionStorage.getItem("AdmID"),
+                    dataType: "json",
+                    success: function (data) {
+                        alert("ID success..");
+                        Name.text(data.Name);
+                        Age.text(data.Age);
+                        Gender.text(data.Gender);
+                        Phone.text(data.Phone);
+                        PanNum.text(data.Pan_Number);
+                        Aadharno.text(data.Aadhar_Number);
+                        PAddress.text(data.Permanent_Address);
+                        CAddress.text(data.Current_Address);
+                        Photo.text(data.Photo);
+                        Status.text(data.Status);
+                        Ref.text(data.Reference);
+                    },
+                    error: function (XHR) {
+                        var responseData = JSON.parse(XHR.responseText);
+                        alert(XHR.status + ":" + responseData.Message);
+                    }
+                });
+           
+            $("#btnDelete").click(function () {
+                $.ajax({
+                    type: "post",
+                    url: "https://localhost:44339/api/AdminLogin/WebApiMADDashBoard/DeleteAdmin/" + window.sessionStorage.getItem("AdmID"),
+                    dataType: "json",
+                    success: function (data) {
+                        alert("Record was successfully deleted..");
+                        window.location = "MAIndex";
+                    },
+                    error: function (XHR) {
+                        var responseData = JSON.parse(XHR.responseText);
+                        alert(XHR.status + ":" + responseData.Message);
+                    }
+                });
+                return true;
+            });
+        }
+    });
+</script>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="row" style="text-align:center;color:red;margin-bottom:20px;">
+            <div class="col-sm-12">
+                <h2>MADelete</h2>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom:10px;">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-4" style="font-weight:bold"><h4>Admin ID</h4></div>
+            <div class="col-sm-4">
+                <h4><span id="ddlAdmId"></span></h4>
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-4"><h4 style="">Name</h4></div>
+            <div class="col-md-4"><h4><span id="txtName"></span></h4></div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-4"><h4 style="">Age </h4></div>
+            <div class="col-md-4"><h4><span id="txtAge"></span></h4></div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-4"><h4 style="">Gender</h4></div>
+            <div class="col-md-4"><h4><span id="txtGender"></span></h4></div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-4"><h4 style="">Phone</h4></div>
+            <div class="col-md-4"><h4><span id="txtPhone"></span></h4></div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-4"><h4 style="">Pan Number</h4></div>
+            <div class="col-md-4"><h4><span id="txtPan"></span></h4></div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-4"><h4 style="">Aadhar Number</h4></div>
+            <div class="col-md-4"><h4><span id="txtAadhar"></span></h4></div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-4"><h4 style="">Permanent Address</h4></div>
+            <div class="col-md-4"><h4><span id="txtPAddress"></span></h4></div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-4"><h4 style="">Current Address</h4></div>
+            <div class="col-md-4"><h4><span id="txtCAddress"></span></h4></div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-4"><h4 style="">Photo</h4></div>
+            <div class="col-md-4"><h4><span id="txtPhoto"></span></h4></div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-4"><h4 style="">Status</h4></div>
+            <div class="col-md-4"><h4><span id="txtStatus"></span></h4></div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-4"><h4 style="">Reference</h4></div>
+            <div class="col-md-4"><h4><span id="txtRef"></span></h4></div>
+            <div class="col-md-2"></div>
+        </div>
+    </div>
+    <div class="row" style="margin-bottom:10px;text-align:center;">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-2">
+            <input type="submit" id="btnDelete" name="Delete" value="Delete" class="btn btn-primary" />
+        </div>
+        <div class="col-sm-2">
+            <input type="submit" id="btnCancel" name="Delete" value="Cancel" class="btn btn-danger" />
+        </div>
+        <div class="col-sm-4"></div>
+    </div>
+    <div class="row" style="margin-bottom:10px;">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-3" style="font-weight:bold"></div>
+        <div class="col-sm-3"></div>
+        <div class="col-sm-3"></div>
+    </div>
+</div>
+

@@ -1,0 +1,261 @@
+﻿
+@{
+    ViewBag.Title = "AddStore";
+    Layout = "~/Areas/AdminLogin/Views/Shared/_OperationalAdminLayout.cshtml";
+}
+
+<script src="~/Scripts/jquery-1.12.4.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        if (window.sessionStorage.getItem("AdminID" == null)) {
+            window.location = "Login";
+
+        }
+        else {
+            if (window.sessionStorage.getItem("Email") != null) {
+                var dropdown = $("#ddlOEmailId");
+                dropdown.hide();
+                alert(window.sessionStorage.getItem("Email"));
+                var OEmailId = $("#txtOEmailId");
+                OEmailId.val(window.sessionStorage.getItem("Email"));
+            }
+            else {
+                var OEmailId = $("#txtOEmailId");
+                var dropdown = $("#ddlOEmailId");
+                var Register = $("#btnRegister");
+                var OEmailId = $("#txtOEmailId");
+                var SEmailId = $("#txtSEmailId");
+                var SName = $("#txtSName");
+                var Phone = $("#txtPhone");
+                var License = $("#txtLicense");
+                var Licenseimage = $("#Licenseimage");
+                var Address = $("#txtAddress");
+                var Pan = $("#txtPan");
+                var Percentage = $("#txtPercentage");
+                var Status = $("input[name='Status']:checked").length;
+                debugger;
+
+                Licenseimage.change(function () {
+                    var File = this.files;
+                    if (File && File[0]) {
+                        ReadImage(File[0]);
+                    }
+                });
+                var ReadImage = function (file) {
+                    var reader = new FileReader;
+                    var image = new Image;
+
+                    reader.readAsDataURL(file);
+                    reader.onload = function (_file) {
+
+                        image.src = _file.target.result;
+                        image.onload = function () {
+
+                            var height = this.height;
+                            var width = this.width;
+                            var type = file.type;
+                            var size = ~~(file.size / 1024) + "KB";
+
+                            $("#targetImg").attr("src", _file.target.result);
+                            $("#description").text("Size:" + size + ", " + height + "X " + width + "");
+                            $("#imagePreview").show();
+                        }
+                    }
+                }
+
+                var ClearPreview = function () {
+                    Licenseimage.val('');
+                    $("#description").text('');
+                    $("#imagePreview").hide();
+                }
+                $.ajax({
+                    type: "get",
+                    url: "https://localhost:44339/api/AdminLogin/WebApiOA/GetOwnerList",
+                    dataType: "json",
+                    success: function (data) {
+                        alert(data);
+                        dropdown.empty();
+                        dropdown.append("<option value='0'>-Select Owner-</option>")
+                        $.each(data, function (index, item) {
+                            dropdown.append("<option value='" + item.Owner_Email + "'>" + item.Owner_Email + "</option>");
+                        });
+                    },
+                    error: function (XHR) {
+                        var responseData = JSON.parse(XHR.responseText);
+                        alert(XHR.Status + ":" + responseData.Message);
+                    }
+                });
+                dropdown.change(function () {
+                    OEmailId.val(dropdown.val());
+                    //$('#OEmailId').attr('readonly', true);
+                    //$('#OEmailId').addClass('input-disabled');
+                });  
+            }
+            Register.click(function () {
+                    debugger;
+                    var file = Licenseimage.get(0).files;
+
+                    var data = new FormData();
+                    data.append("Owner_Email", OEmailId.val());
+                    data.append("StoreEmail", SEmailId.val());
+                    data.append("Store_Name", SName.val());
+                    data.append("Phone", Phone.val());
+                    data.append("License_Number", License.val());
+                    data.append("License_Image_Copy", file[0]);
+                    data.append("Address", Address.val());
+                    data.append("Pan_Number", Pan.val());
+                    data.append("Percentage", Percentage.val());
+                    data.append("Status", $("input[name='Status']:checked").val());
+                    debugger;
+                    $.ajax({
+                        type: "post",
+                        url: "https://localhost:44339/AdminLogin/OperationsAdmin/NewStore",
+                        data: data,
+                        contentType: false,
+                        processData: false,
+                        success: function (status) {
+                            if (status) {
+                                alert("Store was successfully Created");
+                            } else {
+                                alert("Something went Wrong...!");
+                            }
+                        },
+                        error: function (XHR)
+                        {
+                        var responseData = JSON.parse(XHR.responseText);
+                        alert(XHR.status + ":" + responseData.Message);
+                        }
+                    });
+            });
+        }
+    });
+
+</script>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="row" style="text-align:center;color:red;margin-bottom:20px;">
+            <div class="col-sm-12">
+                <h2>Add Store</h2>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom:15px;">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-4" style="font-weight:bold">Owner Email Id</div>
+            <div class="col-sm-4">
+                <select id="ddlOEmailId" name="ddlOEmailId" class="form-control"></select>
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+        <div class="row" style="margin-bottom:15px;">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-4" style="font-weight:bold">Owner Email Id</div>
+            <div class="col-sm-4">
+                <input type="text" id="txtOEmailId" name="txtOEmailId" class="form-control" placeholder="Enter OwnerEmailId" />
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+        <div class="row" style="margin-bottom:15px;">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-4" style="font-weight:bold">Store Email Id</div>
+            <div class="col-sm-4">
+                <input type="text" id="txtSEmailId" name="txtSEmailId" class="form-control" placeholder="Enter Store EmailId" />
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+        <div class="row" style="margin-bottom:15px;">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-4" style="font-weight:bold">Name</div>
+            <div class="col-sm-4">
+                <input type="text" id="txtSName" name="txtSName" class="form-control" placeholder="Enter Store Name" />
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+        <div class="row" style="margin-bottom:15px;">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-4" style="font-weight:bold">Phone</div>
+            <div class="col-sm-4">
+                <input type="text" id="txtPhone" name="txtPhone" class="form-control" placeholder="Enter Phone Number" />
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+        <div class="row" style="margin-bottom:15px;">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-4" style="font-weight:bold">License Number</div>
+            <div class="col-sm-4">
+                <input type="text" id="txtLicense" name="txtLicense" class="form-control" placeholder="Enter License Number" />
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+        <div class="row" style="margin-bottom:10px">
+            <div class="col-md-2"> </div>
+            <div class="col-md-4">License Image</div>
+            <div class="col-md-3">
+                <input type="file" id="Licenseimage" />
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div id="imagePreview" class="thumbnail" style="display:none;">
+                            <img class="img-responsive" id="targetImg" />
+                            <div class="caption">
+                                <a href="#" onclick="ClearPreview();"><i class="glyphicon glyphicon-trash"></i></a>
+                                <p id="description"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3"> </div>
+        </div>
+        <div class="row" style="margin-bottom:15px;">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-4" style="font-weight:bold">Permanent Address</div>
+            <div class="col-sm-4">
+                <textarea id="txtAddress" name="txtAddress" class="form-control" placeholder="Enter Permanent Address" rows="5"></textarea>
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+        <div class="row" style="margin-bottom:15px;">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-4" style="font-weight:bold">Pan Number</div>
+            <div class="col-sm-4">
+                <input type="text" id="txtPan" name="txtPan" class="form-control" placeholder="Enter Pan Number" />
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+        <div class="row" style="margin-bottom:15px;">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-4" style="font-weight:bold">Percentage</div>
+            <div class="col-sm-4">
+                <input type="text" id="txtPercentage" name="txtPercentage" class="form-control" placeholder="Enter Percentage" />
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+
+        <div class="row" style="margin-bottom:15px;">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-4" style="font-weight:bold">Status</div>
+            <div class="col-sm-4">
+                <input type="radio" id="rbtnAct" name="Status" value="Active" />Active
+                <input type="radio" id="rbtnInact" name="Status" value="InActive" />InActive
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+        <div class="row" style="margin-top:60px;text-align:center;">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-4" style="margin-top:2px;">
+                <input type="submit" id="btnRegister" name="Register" value="Register" class="btn btn-primary" />
+            </div>
+            <div class="col-sm-4">
+                <input type="submit" id="btnCancel" name="Register" value="Cancel" class="btn btn-danger" />
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+        <div class="row" style="margin-bottom:15px;">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-3" style="font-weight:bold"></div>
+            <div class="col-sm-3"></div>
+            <div class="col-sm-3"></div>
+        </div>
+    </div>
+</div>
+
